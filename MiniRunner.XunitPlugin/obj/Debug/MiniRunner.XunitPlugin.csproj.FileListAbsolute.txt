@@ -1,7 +1,0 @@
-D:\Dev\Projects\MiniRunner\MiniRunner.XunitPlugin\obj\Debug\MiniRunner.XunitPlugin.csprojResolveAssemblyReference.cache
-D:\Dev\Projects\MiniRunner\MiniRunner.XunitPlugin\bin\Debug\MiniRunner.XunitPlugin.dll
-D:\Dev\Projects\MiniRunner\MiniRunner.XunitPlugin\bin\Debug\MiniRunner.XunitPlugin.pdb
-D:\Dev\Projects\MiniRunner\MiniRunner.XunitPlugin\bin\Debug\MiniRunner.Api.dll
-D:\Dev\Projects\MiniRunner\MiniRunner.XunitPlugin\bin\Debug\MiniRunner.Api.pdb
-D:\Dev\Projects\MiniRunner\MiniRunner.XunitPlugin\obj\Debug\MiniRunner.XunitPlugin.dll
-D:\Dev\Projects\MiniRunner\MiniRunner.XunitPlugin\obj\Debug\MiniRunner.XunitPlugin.pdb
