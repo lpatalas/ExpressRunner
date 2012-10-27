@@ -53,6 +53,19 @@ namespace MiniRunner.Api
             }
         }
 
+        private readonly string uniqueId;
+        public string UniqueId
+        {
+            get { return uniqueId; }
+        }
+
+        public TestCase(string uniqueId)
+        {
+            if (string.IsNullOrEmpty(uniqueId))
+                throw new ArgumentNullException("uniqueId");
+            this.uniqueId = uniqueId;
+        }
+
         protected void NotifyOfPropertyChange(string propertyName)
         {
             PropertyChangedEventHandler handler = PropertyChanged;

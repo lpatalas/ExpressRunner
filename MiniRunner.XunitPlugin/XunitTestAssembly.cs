@@ -24,18 +24,15 @@ namespace MiniRunner.XunitPlugin
             this.executorWrapper = new ExecutorWrapper(assemblyFileName, null, true);
 
             var testAssembly = TestAssemblyBuilder.Build(executorWrapper);
-
             foreach (var testMethod in testAssembly.EnumerateTestMethods())
-            {
                 testByName.Add(testMethod.DisplayName, CreateTestCase(testMethod));
-            }
 
             this.testCases = testByName.Values.ToList().AsReadOnly();
         }
 
         private static TestCase CreateTestCase(TestMethod testMethod)
         {
-            return new TestCase
+            return new TestCase(testMethod.DisplayName)
             {
                 Path = testMethod.TestClass.TypeName.Replace('.', '/').Replace('+', '/'),
                 Name = FormatName(testMethod)
@@ -65,21 +62,21 @@ namespace MiniRunner.XunitPlugin
             return testByName[testName];
         }
 
-        public void RunTests()
+        public void RunTests(IEnumerable<TestCase> tests)
         {
-            var testRunner = new TestRunner(executorWrapper, new TestRunnerLogger(this));
+            var testRunner = new TestRunner(executorWrapper, new TestRunnerLogger(this, tests));
             testRunner.RunAssembly();
         }
 
         private class TestRunnerLogger : IRunnerLogger
         {
             private readonly XunitTestAssembly testAssembly;
+            private readonly HashSet<string> testsToRun = new HashSet<string>();
 
-            public TestRunnerLogger(XunitTestAssembly testAssembly)
+            public TestRunnerLogger(XunitTestAssembly testAssembly, IEnumerable<TestCase> testsToRun)
             {
-                if (testAssembly == null)
-                    throw new ArgumentNullException("testAssembly");
                 this.testAssembly = testAssembly;
+                this.testsToRun = new HashSet<string>(testsToRun.Select(c => c.UniqueId));
             }
 
             public void AssemblyFinished(string assemblyFilename, int total, int failed, int skipped, double time)
@@ -124,7 +121,7 @@ namespace MiniRunner.XunitPlugin
 
             public bool TestStart(string name, string type, string method)
             {
-                return true;
+                return testsToRun.Contains(name);
             }
         }
     

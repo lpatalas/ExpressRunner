@@ -9,6 +9,6 @@ namespace MiniRunner.Api
     public interface ITestAssembly
     {
         IEnumerable<TestCase> Tests { get; }
-        void RunTests();
+        void RunTests(IEnumerable<TestCase> tests);
     }
 }

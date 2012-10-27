@@ -21,11 +21,5 @@ namespace MiniRunner.XunitPlugin
         {
             return new XunitTestAssembly(assemblyFileName);
         }
-
-        public void RunTests(ITestAssembly testCaseSet, IEnumerable<TestCase> testsToRun)
-        {
-            var xunitTestCaseSet = (XunitTestAssembly)testCaseSet;
-            xunitTestCaseSet.RunTests();
-        }
     }
 }

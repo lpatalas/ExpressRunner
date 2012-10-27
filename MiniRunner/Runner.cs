@@ -83,14 +83,12 @@ namespace MiniRunner
             testGroups.Add(root);
         }
 
-        public void RunTests()
+        public void RunTests(TestGroup testGroup)
         {
             Task.Factory.StartNew(() =>
             {
                 foreach (var assembly in testAssemblies)
-                {
-                    assembly.RunTests();
-                }
+                    assembly.RunTests(testGroup.Tests);
             });
         }
     }

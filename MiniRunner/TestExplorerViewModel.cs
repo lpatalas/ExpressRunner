@@ -76,7 +76,8 @@ namespace MiniRunner
 
         public void RunTests()
         {
-            runner.RunTests();
+            if (SelectedTestGroup != null)
+                runner.RunTests(SelectedTestGroup);
         }
 
         public void OnSelectedTestGroupChanged(RoutedPropertyChangedEventArgs<object> eventArgs)
