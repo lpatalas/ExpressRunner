@@ -8,18 +8,19 @@ using Xunit;
 
 namespace MiniRunner.XunitPlugin
 {
-    public class XunitTestAssembly : ITestAssembly
+    public class XunitTestAssembly : Api.TestAssembly
     {
         private readonly IExecutorWrapper executorWrapper;
         private readonly IDictionary<string, TestCase> testByName = new Dictionary<string, TestCase>();
         private readonly IList<TestCase> testCases;
 
-        public IEnumerable<TestCase> Tests
+        public override IEnumerable<TestCase> Tests
         {
             get { return testCases; }
         }
 
-        public XunitTestAssembly(string assemblyFileName)
+        public XunitTestAssembly(XunitFramework framework, string assemblyFileName)
+            : base(framework)
         {
             this.executorWrapper = new ExecutorWrapper(assemblyFileName, null, true);
 
@@ -62,7 +63,7 @@ namespace MiniRunner.XunitPlugin
             return testByName[testName];
         }
 
-        public void RunTests(IEnumerable<TestCase> tests)
+        public override void RunTests(IEnumerable<TestCase> tests)
         {
             var testRunner = new TestRunner(executorWrapper, new TestRunnerLogger(this, tests));
             testRunner.RunAssembly();

@@ -15,6 +15,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button x:Name="OpenAssembly">Open Assembly</Button>
+            <Button x:Name="ReloadAssemblies">Reload Assemblies</Button>
             <Button x:Name="RunTests">Run Tests</Button>
         </StackPanel>
         <Grid Grid.Row="1">

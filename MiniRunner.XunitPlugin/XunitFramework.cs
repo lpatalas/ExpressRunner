@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MiniRunner.Api;
-using Xunit;
 
 namespace MiniRunner.XunitPlugin
 {
@@ -17,9 +16,9 @@ namespace MiniRunner.XunitPlugin
             get { return "xUnit"; }
         }
 
-        public ITestAssembly LoadAssembly(string assemblyFileName)
+        public TestAssembly LoadAssembly(string assemblyFileName)
         {
-            return new XunitTestAssembly(assemblyFileName);
+            return new XunitTestAssembly(this, assemblyFileName);
         }
     }
 }

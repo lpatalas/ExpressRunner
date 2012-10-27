@@ -74,6 +74,11 @@ namespace MiniRunner
             }
         }
 
+        public void ReloadAssemblies()
+        {
+            runner.ReloadAssemblies();
+        }
+
         public void RunTests()
         {
             if (SelectedTestGroup != null)

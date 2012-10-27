@@ -14,7 +14,7 @@ namespace MiniRunner
     public class Runner
     {
         private readonly IList<ITestFramework> frameworks;
-        private readonly List<ITestAssembly> testAssemblies = new List<ITestAssembly>();
+        private readonly List<TestAssembly> testAssemblies = new List<TestAssembly>();
         private readonly BindableCollection<TestGroup> testGroups = new BindableCollection<TestGroup>();
         private readonly BindableCollection<TestCase> tests = new BindableCollection<TestCase>();
 
@@ -81,6 +81,11 @@ namespace MiniRunner
             }
 
             testGroups.Add(root);
+        }
+
+        public void ReloadAssemblies()
+        {
+            
         }
 
         public void RunTests(TestGroup testGroup)
