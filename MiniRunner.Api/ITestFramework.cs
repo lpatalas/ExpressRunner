@@ -8,6 +8,7 @@ namespace MiniRunner.Api
 {
     public interface ITestFramework
     {
+        string Name { get; }
         ITestAssembly LoadAssembly(string assemblyFileName);
     }
 }

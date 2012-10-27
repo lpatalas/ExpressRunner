@@ -12,6 +12,11 @@ namespace MiniRunner.XunitPlugin
     [Export(typeof(ITestFramework))]
     public class XunitFramework : ITestFramework
     {
+        public string Name
+        {
+            get { return "xUnit"; }
+        }
+
         public ITestAssembly LoadAssembly(string assemblyFileName)
         {
             return new XunitTestAssembly(assemblyFileName);

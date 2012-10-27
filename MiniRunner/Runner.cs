@@ -45,17 +45,19 @@ namespace MiniRunner
                 var assembly = framework.LoadAssembly(filePath);
                 testAssemblies.Add(assembly);
                 tests.AddRange(assembly.Tests);
+
+                var groupTitle = string.Format("{0} [{1}]", Path.GetFileName(filePath), framework.Name);
+                CreateGroup(groupTitle, assembly.Tests);
             }
 
-            CreateGroup(Path.GetFileName(filePath));
 
             tests.IsNotifying = true;
             tests.Refresh();
         }
 
-        private void CreateGroup(string assemblyName)
+        private void CreateGroup(string groupTitle, IEnumerable<TestCase> tests)
         {
-            var root = new TestGroup(assemblyName);
+            var root = new TestGroup(groupTitle);
 
             foreach (var test in tests)
             {
