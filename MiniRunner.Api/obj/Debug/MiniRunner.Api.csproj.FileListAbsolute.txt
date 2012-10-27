@@ -1,0 +1,5 @@
+D:\Dev\Projects\MiniRunner\MiniRunner.Api\bin\Debug\MiniRunner.Api.dll
+D:\Dev\Projects\MiniRunner\MiniRunner.Api\bin\Debug\MiniRunner.Api.pdb
+D:\Dev\Projects\MiniRunner\MiniRunner.Api\obj\Debug\MiniRunner.Api.dll
+D:\Dev\Projects\MiniRunner\MiniRunner.Api\obj\Debug\MiniRunner.Api.pdb
+D:\Dev\Projects\MiniRunner\MiniRunner.Api\obj\Debug\MiniRunner.Api.csprojResolveAssemblyReference.cache
