@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 
-namespace MiniRunner
+namespace ExpressRunner
 {
     public class AppBootstrapper : Bootstrapper<ShellViewModel>
     {

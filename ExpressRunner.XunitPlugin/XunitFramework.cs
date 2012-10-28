@@ -4,9 +4,9 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MiniRunner.Api;
+using ExpressRunner.Api;
 
-namespace MiniRunner.XunitPlugin
+namespace ExpressRunner.XunitPlugin
 {
     [Export(typeof(ITestFramework))]
     public class XunitFramework : ITestFramework

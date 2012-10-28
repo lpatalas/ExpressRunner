@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Win32;
-using MiniRunner.Api;
+using ExpressRunner.Api;
 
-namespace MiniRunner
+namespace ExpressRunner
 {
     [Export]
     public class TestExplorerViewModel : PropertyChangedBase

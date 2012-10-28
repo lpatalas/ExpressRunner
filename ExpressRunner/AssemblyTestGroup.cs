@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MiniRunner.Api;
+using ExpressRunner.Api;
 
-namespace MiniRunner
+namespace ExpressRunner
 {
     public class AssemblyTestGroup : TestGroup
     {

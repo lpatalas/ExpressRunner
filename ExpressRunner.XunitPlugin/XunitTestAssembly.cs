@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MiniRunner.Api;
+using ExpressRunner.Api;
 using Xunit;
 
-namespace MiniRunner.XunitPlugin
+namespace ExpressRunner.XunitPlugin
 {
     public class XunitTestAssembly : Api.TestAssembly
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Caliburn.Micro;
 
-namespace MiniRunner
+namespace ExpressRunner
 {
     [Export]
     public class ShellViewModel

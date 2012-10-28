@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using MiniRunner.Api;
+using ExpressRunner.Api;
 
-namespace MiniRunner
+namespace ExpressRunner
 {
     [Export]
     public class Runner
