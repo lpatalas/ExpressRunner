@@ -72,7 +72,7 @@ namespace MiniRunner
             Task.Factory.StartNew(() =>
             {
                 foreach (var assembly in testAssemblies)
-                    assembly.RunTests(testGroup.Tests);
+                    assembly.RunTests(testGroup.Tests.Select(testItem => testItem.Test));
             });
         }
     }

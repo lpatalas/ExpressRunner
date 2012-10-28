@@ -12,7 +12,7 @@ namespace MiniRunner
     {
         private readonly string name;
         private readonly BindableCollection<TestGroup> subGroups;
-        private readonly BindableCollection<Test> tests;
+        private readonly BindableCollection<TestItem> tests;
 
         public string Name
         {
@@ -24,7 +24,7 @@ namespace MiniRunner
             get { return subGroups; }
         }
 
-        public IList<Test> Tests
+        public IList<TestItem> Tests
         {
             get { return tests; }
         }
@@ -38,7 +38,7 @@ namespace MiniRunner
         {
             this.name = name;
             this.subGroups = new BindableCollection<TestGroup>(subGroups);
-            this.tests = new BindableCollection<Test>(tests);
+            this.tests = new BindableCollection<TestItem>(tests.Select(test => new TestItem(test)));
         }
     }
 }

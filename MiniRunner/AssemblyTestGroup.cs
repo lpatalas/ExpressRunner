@@ -36,7 +36,7 @@ namespace MiniRunner
         {
             foreach (var test in tests)
             {
-                this.Tests.Add(test);
+                this.Tests.Add(new TestItem(test));
                 var groups = test.Path.Split('/');
 
                 TestGroup currentGroup = this;
@@ -50,7 +50,7 @@ namespace MiniRunner
                         currentGroup.SubGroups.Add(matchedGroup);
                     }
 
-                    matchedGroup.Tests.Add(test);
+                    matchedGroup.Tests.Add(new TestItem(test));
                     currentGroup = matchedGroup;
                 }
             }

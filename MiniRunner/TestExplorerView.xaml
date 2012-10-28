@@ -32,11 +32,10 @@
             </TreeView>
             <ListBox Grid.Column="1" ItemsSource="{Binding SelectedTestGroup.Tests}">
                 <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type api:Test}">
+                    <DataTemplate DataType="{x:Type local:TestItem}">
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding Path}" />
-                            <TextBlock Text="{Binding Name}" />
-                            <TextBlock Text="{Binding Status}" />
+                            <TextBlock Text="{Binding Test.Name}" />
+                            <TextBlock Text="{Binding Test.Status}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

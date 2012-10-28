@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="TestExplorerViewModel.cs" />
     <Compile Include="TestGroup.cs" />
+    <Compile Include="TestItem.cs" />
     <Page Include="ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

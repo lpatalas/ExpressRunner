@@ -36,28 +36,9 @@ namespace MiniRunner
             }
         }
 
-        private Test selectedTest;
-        public Test SelectedTest
-        {
-            get { return selectedTest; }
-            set
-            {
-                if (selectedTest != value)
-                {
-                    selectedTest = value;
-                    NotifyOfPropertyChange(() => SelectedTest);
-                }
-            }
-        }
-
         public IObservableCollection<AssemblyTestGroup> TestGroups
         {
             get { return runner.TestGroups; }
-        }
-
-        public IObservableCollection<Test> Tests
-        {
-            get { return runner.Tests; }
         }
 
         [ImportingConstructor]
