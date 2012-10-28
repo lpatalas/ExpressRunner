@@ -15,10 +15,10 @@ namespace MiniRunner
     {
         private readonly IList<ITestFramework> frameworks;
         private readonly List<TestAssembly> testAssemblies = new List<TestAssembly>();
-        private readonly BindableCollection<TestGroup> testGroups = new BindableCollection<TestGroup>();
+        private readonly BindableCollection<AssemblyTestGroup> testGroups = new BindableCollection<AssemblyTestGroup>();
         private readonly BindableCollection<Test> tests = new BindableCollection<Test>();
 
-        public IObservableCollection<TestGroup> TestGroups
+        public IObservableCollection<AssemblyTestGroup> TestGroups
         {
             get { return testGroups; }
         }
@@ -47,7 +47,7 @@ namespace MiniRunner
                 tests.AddRange(assembly.Tests);
 
                 var groupTitle = string.Format("{0} [{1}]", Path.GetFileName(filePath), framework.Name);
-                CreateGroup(groupTitle, assembly.Tests);
+                CreateGroup(assembly, groupTitle, assembly.Tests);
             }
 
 
@@ -55,37 +55,16 @@ namespace MiniRunner
             tests.Refresh();
         }
 
-        private void CreateGroup(string groupTitle, IEnumerable<Test> tests)
+        private void CreateGroup(TestAssembly assembly, string groupTitle, IEnumerable<Test> tests)
         {
-            var root = new TestGroup(groupTitle);
-
-            foreach (var test in tests)
-            {
-                root.Tests.Add(test);
-                var groups = test.Path.Split('/');
-
-                var currentGroup = root;
-
-                foreach (var part in groups)
-                {
-                    var matchedGroup = currentGroup.SubGroups.FirstOrDefault(subGroup => subGroup.Name.Equals(part));
-                    if (matchedGroup == null)
-                    {
-                        matchedGroup = new TestGroup(part);
-                        currentGroup.SubGroups.Add(matchedGroup);
-                    }
-
-                    matchedGroup.Tests.Add(test);
-                    currentGroup = matchedGroup;
-                }
-            }
-
+            var root = new AssemblyTestGroup(assembly, groupTitle, tests);
             testGroups.Add(root);
         }
 
         public void ReloadAssemblies()
         {
-            
+            foreach (var assemblyTestGroup in testGroups)
+                assemblyTestGroup.Reload();
         }
 
         public void RunTests(TestGroup testGroup)

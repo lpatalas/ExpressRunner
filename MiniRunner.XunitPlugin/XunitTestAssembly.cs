@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,34 +11,26 @@ namespace MiniRunner.XunitPlugin
 {
     public class XunitTestAssembly : Api.TestAssembly
     {
-        private readonly IExecutorWrapper executorWrapper;
-        private readonly IDictionary<string, Test> testByName = new Dictionary<string, Test>();
-        private readonly IList<Test> testCases;
+        private string assemblyFileName;
+        private IExecutorWrapper executorWrapper;
+        private TestCollection tests = new TestCollection();
 
         public override IEnumerable<Test> Tests
         {
-            get { return testCases; }
+            get { return tests; }
         }
 
         public XunitTestAssembly(XunitFramework framework, string assemblyFileName)
             : base(framework)
         {
-            this.executorWrapper = new ExecutorWrapper(assemblyFileName, null, true);
+            this.assemblyFileName = assemblyFileName;
 
-            var testAssembly = TestAssemblyBuilder.Build(executorWrapper);
-            foreach (var testMethod in testAssembly.EnumerateTestMethods())
-                testByName.Add(testMethod.DisplayName, CreateTestCase(testMethod));
-
-            this.testCases = testByName.Values.ToList().AsReadOnly();
+            Reload();
         }
 
-        private static Test CreateTestCase(TestMethod testMethod)
+        public Test GetTestByName(string testName)
         {
-            return new Test(testMethod.DisplayName)
-            {
-                Path = testMethod.TestClass.TypeName.Replace('.', '/').Replace('+', '/'),
-                Name = FormatName(testMethod)
-            };
+            return tests[testName];
         }
 
         private static string FormatName(TestMethod testMethod)
@@ -58,9 +51,24 @@ namespace MiniRunner.XunitPlugin
             }
         }
 
-        public Test GetTestCaseByName(string testName)
+        public override void Reload()
         {
-            return testByName[testName];
+            this.executorWrapper = new ExecutorWrapper(assemblyFileName, null, true);
+
+            var testAssembly = TestAssemblyBuilder.Build(executorWrapper);
+
+            tests.Clear();
+            foreach (var testMethod in testAssembly.EnumerateTestMethods())
+                tests.Add(CreateTest(testMethod));
+        }
+
+        private static Test CreateTest(TestMethod testMethod)
+        {
+            return new Test(testMethod.DisplayName)
+            {
+                Path = testMethod.TestClass.TypeName.Replace('.', '/').Replace('+', '/'),
+                Name = FormatName(testMethod)
+            };
         }
 
         public override void RunTests(IEnumerable<Test> tests)
@@ -99,7 +107,7 @@ namespace MiniRunner.XunitPlugin
 
             public void TestFailed(string name, string type, string method, double duration, string output, string exceptionType, string message, string stackTrace)
             {
-                var test = testAssembly.GetTestCaseByName(name);
+                var test = testAssembly.GetTestByName(name);
                 test.Status = Api.TestStatus.Failed;
             }
 
@@ -110,13 +118,13 @@ namespace MiniRunner.XunitPlugin
 
             public void TestPassed(string name, string type, string method, double duration, string output)
             {
-                var test = testAssembly.GetTestCaseByName(name);
+                var test = testAssembly.GetTestByName(name);
                 test.Status = Api.TestStatus.Succeeded;
             }
 
             public void TestSkipped(string name, string type, string method, string reason)
             {
-                var test = testAssembly.GetTestCaseByName(name);
+                var test = testAssembly.GetTestByName(name);
                 test.Status = Api.TestStatus.NotRun;
             }
 

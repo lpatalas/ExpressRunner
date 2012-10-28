@@ -50,7 +50,7 @@ namespace MiniRunner
             }
         }
 
-        public IObservableCollection<TestGroup> TestGroups
+        public IObservableCollection<AssemblyTestGroup> TestGroups
         {
             get { return runner.TestGroups; }
         }

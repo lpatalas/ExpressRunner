@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniRunner.Api", "MiniRunne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniRunner.XunitPlugin", "MiniRunner.XunitPlugin\MiniRunner.XunitPlugin.csproj", "{D2D3E324-1E8A-4231-AF48-96ECC5F57125}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniRunner.TestProject", "MiniRunner.TestProject\MiniRunner.TestProject.csproj", "{5DFF49DD-A94D-40F8-9918-9CAC8C19A7D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D2D3E324-1E8A-4231-AF48-96ECC5F57125}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2D3E324-1E8A-4231-AF48-96ECC5F57125}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2D3E324-1E8A-4231-AF48-96ECC5F57125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DFF49DD-A94D-40F8-9918-9CAC8C19A7D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DFF49DD-A94D-40F8-9918-9CAC8C19A7D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DFF49DD-A94D-40F8-9918-9CAC8C19A7D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DFF49DD-A94D-40F8-9918-9CAC8C19A7D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
