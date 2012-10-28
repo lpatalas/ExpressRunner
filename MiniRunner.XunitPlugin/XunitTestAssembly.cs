@@ -71,7 +71,7 @@ namespace MiniRunner.XunitPlugin
             return new Test(name, path, uniqueId);
         }
 
-        public override void RunTests(IEnumerable<Test> tests)
+        public override void RunTests(IEnumerable<IRunnableTest> tests)
         {
             var testRunner = new TestRunner(executorWrapper, new TestRunnerLogger(this, tests));
             testRunner.RunAssembly();
@@ -80,12 +80,14 @@ namespace MiniRunner.XunitPlugin
         private class TestRunnerLogger : IRunnerLogger
         {
             private readonly XunitTestAssembly testAssembly;
-            private readonly HashSet<string> testsToRun = new HashSet<string>();
+            private readonly Dictionary<string, IRunnableTest> runningTests = new Dictionary<string, IRunnableTest>();
 
-            public TestRunnerLogger(XunitTestAssembly testAssembly, IEnumerable<Test> testsToRun)
+            public TestRunnerLogger(XunitTestAssembly testAssembly, IEnumerable<IRunnableTest> testsToRun)
             {
                 this.testAssembly = testAssembly;
-                this.testsToRun = new HashSet<string>(testsToRun.Select(c => c.UniqueId));
+
+                foreach (var item in testsToRun)
+                    runningTests.Add(item.Test.UniqueId, item);
             }
 
             public void AssemblyFinished(string assemblyFilename, int total, int failed, int skipped, double time)
@@ -107,8 +109,7 @@ namespace MiniRunner.XunitPlugin
 
             public void TestFailed(string name, string type, string method, double duration, string output, string exceptionType, string message, string stackTrace)
             {
-                var test = testAssembly.GetTestByName(name);
-                test.Status = Api.TestStatus.Failed;
+                UpdateTestStatus(name, Api.TestStatus.Failed);
             }
 
             public bool TestFinished(string name, string type, string method)
@@ -118,19 +119,28 @@ namespace MiniRunner.XunitPlugin
 
             public void TestPassed(string name, string type, string method, double duration, string output)
             {
-                var test = testAssembly.GetTestByName(name);
-                test.Status = Api.TestStatus.Succeeded;
+                UpdateTestStatus(name, Api.TestStatus.Succeeded);
             }
 
             public void TestSkipped(string name, string type, string method, string reason)
             {
-                var test = testAssembly.GetTestByName(name);
-                test.Status = Api.TestStatus.NotRun;
+                UpdateTestStatus(name, Api.TestStatus.NotRun);
             }
 
             public bool TestStart(string name, string type, string method)
             {
-                return testsToRun.Contains(name);
+                return ShouldRunTest(name);
+            }
+
+            private bool ShouldRunTest(string testName)
+            {
+                return runningTests.ContainsKey(testName);
+            }
+
+            private void UpdateTestStatus(string testName, Api.TestStatus status)
+            {
+                var test = runningTests[testName];
+                test.RecordRun(status);
             }
         }
     

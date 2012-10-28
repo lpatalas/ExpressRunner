@@ -8,8 +8,36 @@ using MiniRunner.Api;
 
 namespace MiniRunner
 {
-    public class TestItem : PropertyChangedBase
+    public class TestItem : PropertyChangedBase, IRunnableTest
     {
+        private int runCount;
+        public int RunCount
+        {
+            get { return runCount; }
+            private set
+            {
+                if (runCount != value)
+                {
+                    runCount = value;
+                    NotifyOfPropertyChange(() => RunCount);
+                }
+            }
+        }
+
+        private TestStatus status = TestStatus.NotRun;
+        public TestStatus Status
+        {
+            get { return status; }
+            private set
+            {
+                if (status != value)
+                {
+                    status = value;
+                    NotifyOfPropertyChange("Status");
+                }
+            }
+        }
+
         private readonly Test test;
         public Test Test
         {
@@ -21,6 +49,12 @@ namespace MiniRunner
             if (test == null)
                 throw new ArgumentNullException("test");
             this.test = test;
+        }
+
+        public void RecordRun(TestStatus status)
+        {
+            RunCount++;
+            Status = status;
         }
     }
 }

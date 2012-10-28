@@ -35,7 +35,8 @@
                     <DataTemplate DataType="{x:Type local:TestItem}">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="{Binding Test.Name}" />
-                            <TextBlock Text="{Binding Test.Status}" />
+                            <TextBlock Text="{Binding Status}" />
+                            <TextBlock Text="{Binding RunCount}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

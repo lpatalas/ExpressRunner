@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace MiniRunner.Api
 {
-    public class Test : INotifyPropertyChanged
+    public class Test
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private readonly string name = string.Empty;
         public string Name
         {
@@ -21,20 +19,6 @@ namespace MiniRunner.Api
         public string Path
         {
             get { return path; }
-        }
-
-        private TestStatus status = TestStatus.NotRun;
-        public TestStatus Status
-        {
-            get { return status; }
-            set
-            {
-                if (status != value)
-                {
-                    status = value;
-                    NotifyOfPropertyChange("Status");
-                }
-            }
         }
 
         private readonly string uniqueId;
@@ -55,13 +39,6 @@ namespace MiniRunner.Api
             this.name = name;
             this.path = path;
             this.uniqueId = uniqueId;
-        }
-
-        protected void NotifyOfPropertyChange(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

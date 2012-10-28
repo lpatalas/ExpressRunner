@@ -17,7 +17,7 @@ namespace MiniRunner.Api
         public abstract IEnumerable<Test> Tests { get; }
 
         public abstract void Reload();
-        public abstract void RunTests(IEnumerable<Test> tests);
+        public abstract void RunTests(IEnumerable<IRunnableTest> tests);
 
         protected TestAssembly(ITestFramework framework)
         {
