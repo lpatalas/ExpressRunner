@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MiniRunner.Api
 {
-    public class TestCase : INotifyPropertyChanged
+    public class Test : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -59,7 +59,7 @@ namespace MiniRunner.Api
             get { return uniqueId; }
         }
 
-        public TestCase(string uniqueId)
+        public Test(string uniqueId)
         {
             if (string.IsNullOrEmpty(uniqueId))
                 throw new ArgumentNullException("uniqueId");

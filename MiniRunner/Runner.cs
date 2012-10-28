@@ -16,14 +16,14 @@ namespace MiniRunner
         private readonly IList<ITestFramework> frameworks;
         private readonly List<TestAssembly> testAssemblies = new List<TestAssembly>();
         private readonly BindableCollection<TestGroup> testGroups = new BindableCollection<TestGroup>();
-        private readonly BindableCollection<TestCase> tests = new BindableCollection<TestCase>();
+        private readonly BindableCollection<Test> tests = new BindableCollection<Test>();
 
         public IObservableCollection<TestGroup> TestGroups
         {
             get { return testGroups; }
         }
 
-        public IObservableCollection<TestCase> Tests
+        public IObservableCollection<Test> Tests
         {
             get { return tests; }
         }
@@ -55,7 +55,7 @@ namespace MiniRunner
             tests.Refresh();
         }
 
-        private void CreateGroup(string groupTitle, IEnumerable<TestCase> tests)
+        private void CreateGroup(string groupTitle, IEnumerable<Test> tests)
         {
             var root = new TestGroup(groupTitle);
 

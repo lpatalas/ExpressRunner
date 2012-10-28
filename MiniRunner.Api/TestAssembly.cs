@@ -14,9 +14,9 @@ namespace MiniRunner.Api
             get { return framework; }
         }
 
-        public abstract IEnumerable<TestCase> Tests { get; }
+        public abstract IEnumerable<Test> Tests { get; }
 
-        public abstract void RunTests(IEnumerable<TestCase> tests);
+        public abstract void RunTests(IEnumerable<Test> tests);
 
         protected TestAssembly(ITestFramework framework)
         {

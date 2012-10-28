@@ -36,8 +36,8 @@ namespace MiniRunner
             }
         }
 
-        private TestCase selectedTest;
-        public TestCase SelectedTest
+        private Test selectedTest;
+        public Test SelectedTest
         {
             get { return selectedTest; }
             set
@@ -55,7 +55,7 @@ namespace MiniRunner
             get { return runner.TestGroups; }
         }
 
-        public IObservableCollection<TestCase> Tests
+        public IObservableCollection<Test> Tests
         {
             get { return runner.Tests; }
         }

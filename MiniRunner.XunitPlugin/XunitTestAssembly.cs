@@ -11,10 +11,10 @@ namespace MiniRunner.XunitPlugin
     public class XunitTestAssembly : Api.TestAssembly
     {
         private readonly IExecutorWrapper executorWrapper;
-        private readonly IDictionary<string, TestCase> testByName = new Dictionary<string, TestCase>();
-        private readonly IList<TestCase> testCases;
+        private readonly IDictionary<string, Test> testByName = new Dictionary<string, Test>();
+        private readonly IList<Test> testCases;
 
-        public override IEnumerable<TestCase> Tests
+        public override IEnumerable<Test> Tests
         {
             get { return testCases; }
         }
@@ -31,9 +31,9 @@ namespace MiniRunner.XunitPlugin
             this.testCases = testByName.Values.ToList().AsReadOnly();
         }
 
-        private static TestCase CreateTestCase(TestMethod testMethod)
+        private static Test CreateTestCase(TestMethod testMethod)
         {
-            return new TestCase(testMethod.DisplayName)
+            return new Test(testMethod.DisplayName)
             {
                 Path = testMethod.TestClass.TypeName.Replace('.', '/').Replace('+', '/'),
                 Name = FormatName(testMethod)
@@ -58,12 +58,12 @@ namespace MiniRunner.XunitPlugin
             }
         }
 
-        public TestCase GetTestCaseByName(string testName)
+        public Test GetTestCaseByName(string testName)
         {
             return testByName[testName];
         }
 
-        public override void RunTests(IEnumerable<TestCase> tests)
+        public override void RunTests(IEnumerable<Test> tests)
         {
             var testRunner = new TestRunner(executorWrapper, new TestRunnerLogger(this, tests));
             testRunner.RunAssembly();
@@ -74,7 +74,7 @@ namespace MiniRunner.XunitPlugin
             private readonly XunitTestAssembly testAssembly;
             private readonly HashSet<string> testsToRun = new HashSet<string>();
 
-            public TestRunnerLogger(XunitTestAssembly testAssembly, IEnumerable<TestCase> testsToRun)
+            public TestRunnerLogger(XunitTestAssembly testAssembly, IEnumerable<Test> testsToRun)
             {
                 this.testAssembly = testAssembly;
                 this.testsToRun = new HashSet<string>(testsToRun.Select(c => c.UniqueId));

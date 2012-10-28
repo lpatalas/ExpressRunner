@@ -11,7 +11,7 @@ namespace MiniRunner
     {
         private readonly string name;
         private readonly IList<TestGroup> subGroups;
-        private readonly IList<TestCase> tests;
+        private readonly IList<Test> tests;
 
         public string Name
         {
@@ -23,7 +23,7 @@ namespace MiniRunner
             get { return subGroups; }
         }
 
-        public IList<TestCase> Tests
+        public IList<Test> Tests
         {
             get { return tests; }
         }
@@ -32,10 +32,10 @@ namespace MiniRunner
         {
             this.name = name;
             this.subGroups = new List<TestGroup>();
-            this.tests = new List<TestCase>();
+            this.tests = new List<Test>();
         }
 
-        public TestGroup(string name, IEnumerable<TestGroup> subGroups, IEnumerable<TestCase> tests)
+        public TestGroup(string name, IEnumerable<TestGroup> subGroups, IEnumerable<Test> tests)
         {
             this.name = name;
             this.subGroups = subGroups.ToList();
