@@ -64,11 +64,11 @@ namespace MiniRunner.XunitPlugin
 
         private static Test CreateTest(TestMethod testMethod)
         {
-            return new Test(testMethod.DisplayName)
-            {
-                Path = testMethod.TestClass.TypeName.Replace('.', '/').Replace('+', '/'),
-                Name = FormatName(testMethod)
-            };
+            var name = FormatName(testMethod);
+            var path = testMethod.TestClass.TypeName.Replace('.', '/').Replace('+', '/');
+            var uniqueId = testMethod.DisplayName;
+
+            return new Test(name, path, uniqueId);
         }
 
         public override void RunTests(IEnumerable<Test> tests)

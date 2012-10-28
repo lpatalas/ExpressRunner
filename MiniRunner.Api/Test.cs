@@ -11,32 +11,16 @@ namespace MiniRunner.Api
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private string name = string.Empty;
+        private readonly string name = string.Empty;
         public string Name
         {
             get { return name; }
-            set
-            {
-                if (name != value)
-                {
-                    name = value;
-                    NotifyOfPropertyChange("Name");
-                }
-            }
         }
 
-        private string path = string.Empty;
+        private readonly string path = string.Empty;
         public string Path
         {
             get { return path; }
-            set
-            {
-                if (path != value)
-                {
-                    path = value;
-                    NotifyOfPropertyChange("Path");
-                }
-            }
         }
 
         private TestStatus status = TestStatus.NotRun;
@@ -59,10 +43,17 @@ namespace MiniRunner.Api
             get { return uniqueId; }
         }
 
-        public Test(string uniqueId)
+        public Test(string name, string path, string uniqueId)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+            if (string.IsNullOrEmpty(path))
+                throw new ArgumentNullException("path");
             if (string.IsNullOrEmpty(uniqueId))
                 throw new ArgumentNullException("uniqueId");
+
+            this.name = name;
+            this.path = path;
             this.uniqueId = uniqueId;
         }
 
