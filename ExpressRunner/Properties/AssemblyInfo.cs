@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MiniRunner")]
+[assembly: AssemblyTitle("ExpressRunner")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Łukasz Patalas")]
-[assembly: AssemblyProduct("MiniRunner")]
+[assembly: AssemblyProduct("ExpressRunner")]
 [assembly: AssemblyCopyright("Copyright © Łukasz Patalas 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

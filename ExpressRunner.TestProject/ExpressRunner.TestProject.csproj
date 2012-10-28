@@ -7,8 +7,8 @@
     <ProjectGuid>{5DFF49DD-A94D-40F8-9918-9CAC8C19A7D3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MiniRunner.TestProject</RootNamespace>
-    <AssemblyName>MiniRunner.TestProject</AssemblyName>
+    <RootNamespace>ExpressRunner.TestProject</RootNamespace>
+    <AssemblyName>ExpressRunner.TestProject</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

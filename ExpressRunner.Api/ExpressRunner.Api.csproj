@@ -7,8 +7,8 @@
     <ProjectGuid>{7C597F68-873F-4308-B3AE-6FA6233F740D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MiniRunner.Api</RootNamespace>
-    <AssemblyName>MiniRunner.Api</AssemblyName>
+    <RootNamespace>ExpressRunner.Api</RootNamespace>
+    <AssemblyName>ExpressRunner.Api</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

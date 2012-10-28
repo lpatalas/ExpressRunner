@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MiniRunner.XunitPlugin")]
+[assembly: AssemblyTitle("ExpressRunner.XunitPlugin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MiniRunner.XunitPlugin")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyCompany("Łukasz Patalas")]
+[assembly: AssemblyProduct("ExpressRunner.XunitPlugin")]
+[assembly: AssemblyCopyright("Copyright © Łukasz Patalas 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

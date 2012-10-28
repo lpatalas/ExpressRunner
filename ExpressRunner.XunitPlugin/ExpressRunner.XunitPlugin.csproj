@@ -7,8 +7,8 @@
     <ProjectGuid>{D2D3E324-1E8A-4231-AF48-96ECC5F57125}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MiniRunner.XunitPlugin</RootNamespace>
-    <AssemblyName>MiniRunner.XunitPlugin</AssemblyName>
+    <RootNamespace>ExpressRunner.XunitPlugin</RootNamespace>
+    <AssemblyName>ExpressRunner.XunitPlugin</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,7 +39,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="xunit.runner.utility">
-      <HintPath>..\MiniRunner.Xunit\Dependencies\xunit.runner.utility.dll</HintPath>
+      <HintPath>Dependencies\xunit.runner.utility.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -49,9 +49,9 @@
     <Compile Include="XunitTestAssembly.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MiniRunner.Api\MiniRunner.Api.csproj">
+    <ProjectReference Include="..\ExpressRunner.Api\ExpressRunner.Api.csproj">
       <Project>{7c597f68-873f-4308-b3ae-6fa6233f740d}</Project>
-      <Name>MiniRunner.Api</Name>
+      <Name>ExpressRunner.Api</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
