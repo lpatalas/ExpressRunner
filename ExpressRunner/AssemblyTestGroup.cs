@@ -34,10 +34,12 @@ namespace ExpressRunner
 
         private void CreateSubGroups(IEnumerable<Test> tests)
         {
-            foreach (var test in tests)
+            var testItems = tests.Select(test => new TestItem(test));
+
+            foreach (var testItem in testItems)
             {
-                this.Tests.Add(new TestItem(test));
-                var groups = test.Path.Split('/');
+                this.Tests.Add(testItem);
+                var groups = testItem.Test.Path.Split('/');
 
                 TestGroup currentGroup = this;
 
@@ -50,7 +52,7 @@ namespace ExpressRunner
                         currentGroup.SubGroups.Add(matchedGroup);
                     }
 
-                    matchedGroup.Tests.Add(new TestItem(test));
+                    matchedGroup.Tests.Add(testItem);
                     currentGroup = matchedGroup;
                 }
             }
