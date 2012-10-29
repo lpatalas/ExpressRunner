@@ -39,16 +39,39 @@ namespace ExpressRunner.XunitPlugin
             var nestedClassNameIndex = className.IndexOf('+');
             if (nestedClassNameIndex > 0)
             {
-                var nestedClassName = className.Substring(nestedClassNameIndex + 1);
-                return nestedClassName + " " + testMethod.MethodName.Replace("_", " ");
+                className = className.Substring(nestedClassNameIndex + 1);
             }
             else
             {
                 var nameIndex = className.LastIndexOf('.');
                 if (nameIndex > 0)
                     className = className.Substring(nameIndex + 1);
-                return className + " " + testMethod.MethodName.Replace('_', ' ');
             }
+
+            return FormatClassName(className) + " " + FormatMethodName(testMethod.MethodName);
+        }
+
+        private static string FormatClassName(string className)
+        {
+            if (className.EndsWith("Method"))
+                return className.Substring(0, className.Length - 6) + " method";
+            else if (className.EndsWith("Property"))
+                return className.Substring(0, className.Length - 8) + " property";
+            else if (className.EndsWith("Class"))
+                return className.Substring(0, className.Length - 5) + " class";
+            else if (className.EndsWith("Tests"))
+                return className.Substring(0, className.Length - 5);
+            else
+                return className;
+        }
+
+        private static string FormatMethodName(string name)
+        {
+            name = name.Replace('_', ' ');
+            if (name.StartsWith("Should") || name.StartsWith("Can"))
+                name = char.ToLower(name[0]) + name.Substring(1);
+
+            return name;
         }
 
         public override void Reload()
