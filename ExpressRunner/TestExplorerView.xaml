@@ -6,7 +6,9 @@
              xmlns:api="clr-namespace:ExpressRunner.Api;assembly=ExpressRunner.Api"
              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
              xmlns:local="clr-namespace:ExpressRunner"
+             xmlns:mock="clr-namespace:ExpressRunner.DesignerMocks"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance mock:TestExplorerViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -30,16 +32,10 @@
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
-            <ListBox Grid.Column="1" ItemsSource="{Binding SelectedTestGroup.Tests}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type local:TestItem}">
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding Test.Name}" />
-                            <TextBlock Text="{Binding Status}" />
-                            <TextBlock Text="{Binding RunCount}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+            <ListBox Grid.Column="1"
+                     Style="{StaticResource TestListBox}"
+                     ItemsSource="{Binding SelectedTestGroup.Tests}"
+                     ItemTemplate="{StaticResource TestItem}">
             </ListBox>
         </Grid>
     </Grid>

@@ -61,6 +61,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AssemblyTestGroup.cs" />
+    <Compile Include="DesignerMocks\TestExplorerViewModel.cs" />
     <Compile Include="Runner.cs" />
     <Compile Include="ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -78,6 +79,10 @@
     <Compile Include="TestGroup.cs" />
     <Compile Include="TestItem.cs" />
     <Page Include="ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

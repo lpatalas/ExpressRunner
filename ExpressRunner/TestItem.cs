@@ -10,6 +10,11 @@ namespace ExpressRunner
 {
     public class TestItem : PropertyChangedBase, IRunnableTest
     {
+        public string Name
+        {
+            get { return Test.Name; }
+        }
+
         private int runCount;
         public int RunCount
         {
