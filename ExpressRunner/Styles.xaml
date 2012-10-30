@@ -180,6 +180,11 @@
                                         Grid.Row="1"
                                         Visibility="{Binding IsChecked, ElementName=ItemExpander, Converter={StaticResource booleanToVisibilityConverter}}" />
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" SourceName="PART_Header" Value="True">
+                            <Setter Property="Background" Value="#111" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
