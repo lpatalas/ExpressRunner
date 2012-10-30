@@ -70,7 +70,7 @@ namespace ExpressRunner
             runner.TestGroups.Remove(assembly);
         }
 
-        public void RunTests(AssemblyTestGroup assembly)
+        public void RunTests(TestGroup assembly)
         {
             runner.RunTests(assembly);
         }

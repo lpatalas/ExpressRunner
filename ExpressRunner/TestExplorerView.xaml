@@ -34,7 +34,18 @@
                       ItemsSource="{Binding TestGroups}">
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type local:TestGroup}" ItemsSource="{Binding SubGroups}">
-                        <TextBlock Text="{Binding Name}" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Name}" />
+                            <Button Grid.Column="1"
+                                    cal:Message.Attach="[Event Click] = [Action RunTests($dataContext)]"
+                                    Style="{StaticResource LinkButton}">
+                                run
+                            </Button>
+                        </Grid>
                     </HierarchicalDataTemplate>
                     <HierarchicalDataTemplate DataType="{x:Type local:AssemblyTestGroup}" ItemsSource="{Binding SubGroups}">
                         <Grid>
