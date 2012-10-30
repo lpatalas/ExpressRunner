@@ -20,8 +20,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button x:Name="OpenAssembly">Open Assembly</Button>
-            <Button x:Name="ReloadAssemblies">Reload Assemblies</Button>
-            <Button x:Name="RunTests">Run Tests</Button>
+            <Button x:Name="ReloadAllAssemblies">Reload Assemblies</Button>
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -40,9 +39,31 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="7" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="7" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding Name}" />
                             <Button Grid.Column="1"
+                                    cal:Message.Attach="[Event Click] = [Action RunTests($dataContext)]"
+                                    Style="{StaticResource LinkButton}">
+                                run
+                            </Button>
+                            <TextBlock Grid.Column="2"
+                                       Foreground="#888"
+                                       HorizontalAlignment="Center"
+                                       Text="|" />
+                            <Button Grid.Column="3"
+                                    cal:Message.Attach="[Event Click] = [Action ReloadAssembly($dataContext)]"
+                                    Style="{StaticResource LinkButton}">
+                                reload
+                            </Button>
+                            <TextBlock Grid.Column="4"
+                                       Foreground="#888"
+                                       HorizontalAlignment="Center"
+                                       Text="|" />
+                            <Button Grid.Column="5"
                                     cal:Message.Attach="[Event Click] = [Action RemoveAssembly($dataContext)]"
                                     Style="{StaticResource LinkButton}">
                                 remove

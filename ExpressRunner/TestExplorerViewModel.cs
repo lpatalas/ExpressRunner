@@ -55,9 +55,14 @@ namespace ExpressRunner
             }
         }
 
-        public void ReloadAssemblies()
+        public void ReloadAllAssemblies()
         {
             runner.ReloadAssemblies();
+        }
+
+        public void ReloadAssembly(AssemblyTestGroup assembly)
+        {
+            assembly.Reload();
         }
 
         public void RemoveAssembly(AssemblyTestGroup assembly)
@@ -65,10 +70,9 @@ namespace ExpressRunner
             runner.TestGroups.Remove(assembly);
         }
 
-        public void RunTests()
+        public void RunTests(AssemblyTestGroup assembly)
         {
-            if (SelectedTestGroup != null)
-                runner.RunTests(SelectedTestGroup);
+            runner.RunTests(assembly);
         }
 
         public void OnSelectedTestGroupChanged(RoutedPropertyChangedEventArgs<object> eventArgs)
