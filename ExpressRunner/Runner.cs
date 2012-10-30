@@ -46,7 +46,7 @@ namespace ExpressRunner
                 testAssemblies.Add(assembly);
                 tests.AddRange(assembly.Tests);
 
-                var groupTitle = string.Format("{0} [{1}]", Path.GetFileName(filePath), framework.Name);
+                var groupTitle = Path.GetFileName(filePath);
                 CreateGroup(assembly, groupTitle, assembly.Tests);
             }
 
