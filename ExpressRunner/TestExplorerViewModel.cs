@@ -60,6 +60,11 @@ namespace ExpressRunner
             runner.ReloadAssemblies();
         }
 
+        public void RemoveAssembly(AssemblyTestGroup assembly)
+        {
+            runner.TestGroups.Remove(assembly);
+        }
+
         public void RunTests()
         {
             if (SelectedTestGroup != null)

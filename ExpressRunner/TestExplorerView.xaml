@@ -31,11 +31,25 @@
             <TreeView Grid.Column="0"
                       cal:Message.Attach="[Event SelectedItemChanged] = [Action OnSelectedTestGroupChanged($eventArgs)]"
                       ItemsSource="{Binding TestGroups}">
-                <TreeView.ItemTemplate>
+                <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type local:TestGroup}" ItemsSource="{Binding SubGroups}">
                         <TextBlock Text="{Binding Name}" />
                     </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type local:AssemblyTestGroup}" ItemsSource="{Binding SubGroups}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Name}" />
+                            <Button Grid.Column="1"
+                                    cal:Message.Attach="[Event Click] = [Action RemoveAssembly($dataContext)]"
+                                    Style="{StaticResource LinkButton}">
+                                remove
+                            </Button>
+                        </Grid>
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
             </TreeView>
             <ListBox Grid.Column="1"
                      Style="{StaticResource TestListBox}"
