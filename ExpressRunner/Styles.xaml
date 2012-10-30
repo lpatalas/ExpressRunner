@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:ExpressRunner">
     
+    <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+    
     <Style x:Key="ApplicationWindow" TargetType="{x:Type Window}">
         <Setter Property="FontFamily" Value="Segoe UI" />
         <Setter Property="FontWeight" Value="Light" />
@@ -132,6 +134,11 @@
                                   StrokeThickness="1" />
                         </Canvas>
                     </Viewbox>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Visibility" TargetName="VLine" Value="Hidden" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -160,7 +167,8 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Border Padding="0,0,6,0">
-                            <ToggleButton IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                            <ToggleButton x:Name="ItemExpander"
+                                          IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
                                           Style="{StaticResource TreeViewItemExpander}" />
                         </Border>
                         <Border Grid.Column="1"
@@ -169,7 +177,8 @@
                                               ContentSource="Header" />
                         </Border>
                         <ItemsPresenter Grid.Column="1"
-                                        Grid.Row="1" />
+                                        Grid.Row="1"
+                                        Visibility="{Binding IsChecked, ElementName=ItemExpander, Converter={StaticResource booleanToVisibilityConverter}}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
