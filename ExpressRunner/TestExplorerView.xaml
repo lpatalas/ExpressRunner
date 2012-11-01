@@ -19,19 +19,22 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="6">
-            <Button x:Name="OpenAssembly" Style="{StaticResource LinkButton}">Open Assembly</Button>
-            <Rectangle Fill="#888" Margin="5,3,5,3" Width="1" />
-            <Button x:Name="ReloadAllAssemblies" Style="{StaticResource LinkButton}">Reload Assemblies</Button>
-        </StackPanel>
-        <Grid Grid.Row="1">
+        <Border Grid.Row="0" Background="#111">
+            <StackPanel Orientation="Horizontal" Margin="6">
+                <Button x:Name="OpenAssembly" Style="{StaticResource LinkButton}">Open Assembly</Button>
+                <Rectangle Fill="#888" Margin="5,3,5,3" Width="1" />
+                <Button x:Name="ReloadAllAssemblies" Style="{StaticResource LinkButton}">Reload Assemblies</Button>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="1" Margin="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TreeView Grid.Column="0"
                       cal:Message.Attach="[Event SelectedItemChanged] = [Action OnSelectedTestGroupChanged($eventArgs)]"
-                      ItemsSource="{Binding TestGroups}">
+                      ItemsSource="{Binding TestGroups}"
+                      Margin="6,6,3,6">
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type local:TestGroup}" ItemsSource="{Binding SubGroups}">
                         <Grid>
@@ -88,7 +91,8 @@
             <ListBox Grid.Column="1"
                      Style="{StaticResource TestListBox}"
                      ItemsSource="{Binding SelectedTestGroup.Tests}"
-                     ItemTemplate="{StaticResource TestItem}">
+                     ItemTemplate="{StaticResource TestItem}"
+                     Margin="3,6,6,6">
             </ListBox>
         </Grid>
     </Grid>
