@@ -15,15 +15,42 @@ namespace ExpressRunner
             : base(name, null)
         {
             this.assembly = assembly;
-            CreateSubGroups(tests);
+            AddTests(tests);
         }
 
         public void Reload()
         {
             assembly.Reload();
+            UpdateReloadedItems();
+        }
 
-            Reset();
-            CreateSubGroups(assembly.Tests);
+        private void UpdateReloadedItems()
+        {
+            var itemsToRemove = new List<TestItem>();
+
+            foreach (var item in Tests)
+            {
+                if (!assembly.Tests.Any(test => test == item.Test))
+                    itemsToRemove.Add(item);
+            }
+
+            var testsToAdd = new List<Test>();
+            foreach (var test in assembly.Tests)
+            {
+                if (!Tests.Any(item => item.Test == test))
+                    testsToAdd.Add(test);
+            }
+
+            RemoveTestItems(itemsToRemove);
+            MarkTestsAsUnactual();
+            AddTests(testsToAdd);
+            RemoveEmptySubGroups();
+        }
+
+        private void MarkTestsAsUnactual()
+        {
+            foreach (var item in Tests)
+                item.IsActual = false;
         }
 
         public override void Run()
@@ -44,7 +71,7 @@ namespace ExpressRunner
             Tests.Clear();
         }
 
-        private void CreateSubGroups(IEnumerable<Test> tests)
+        private void AddTests(IEnumerable<Test> tests)
         {
             var testItems = tests.Select(test => new TestItem(test));
 

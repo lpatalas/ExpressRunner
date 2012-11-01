@@ -25,7 +25,7 @@ namespace ExpressRunner
             get { return subGroups; }
         }
 
-        public IList<TestItem> Tests
+        public IObservableCollection<TestItem> Tests
         {
             get { return tests; }
         }
@@ -46,6 +46,24 @@ namespace ExpressRunner
         public virtual void Run()
         {
             parentAssembly.Run(Tests);
+        }
+
+        protected void RemoveEmptySubGroups()
+        {
+            for (int i = subGroups.Count - 1; i >= 0; i--)
+            {
+                if (subGroups[i].Tests.Count == 0)
+                    subGroups.RemoveAt(i);
+                else
+                    subGroups[i].RemoveEmptySubGroups();
+            }
+        }
+
+        protected void RemoveTestItems(IEnumerable<TestItem> itemsToRemove)
+        {
+            Tests.RemoveRange(itemsToRemove);
+            foreach (var subGroup in SubGroups)
+                subGroup.RemoveTestItems(itemsToRemove);
         }
     }
 }

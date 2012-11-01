@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ExpressRunner.Api
 {
-    public class Test
+    public class Test : IEquatable<Test>
     {
         private readonly string name = string.Empty;
         public string Name
@@ -39,6 +39,43 @@ namespace ExpressRunner.Api
             this.name = name;
             this.path = path;
             this.uniqueId = uniqueId;
+        }
+
+        public bool Equals(Test other)
+        {
+            return (object)other != null
+                && UniqueId.Equals(other.UniqueId, StringComparison.Ordinal);
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as Test;
+            return (object)other != null && other.Equals(this);
+        }
+
+        public override int GetHashCode()
+        {
+            return uniqueId.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return uniqueId;
+        }
+
+        public static bool operator ==(Test first, Test second)
+        {
+            if ((object)first == null && (object)second == null)
+                return true;
+            else if ((object)first != null)
+                return first.Equals(second);
+            else
+                return false;
+        }
+
+        public static bool operator !=(Test first, Test second)
+        {
+            return !(first == second);
         }
     }
 }

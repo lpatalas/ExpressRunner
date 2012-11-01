@@ -10,6 +10,19 @@ namespace ExpressRunner
 {
     public class TestItem : PropertyChangedBase, IRunnableTest
     {
+        private bool isActual;
+        public bool IsActual
+        {
+            get { return isActual; }
+            set
+            {
+                if (isActual != value)
+                {
+                    isActual = value;
+                    NotifyOfPropertyChange(() => IsActual);
+                }
+            }
+        }
         public string Name
         {
             get { return Test.Name; }
@@ -30,7 +43,7 @@ namespace ExpressRunner
                 if (status != value)
                 {
                     status = value;
-                    NotifyOfPropertyChange("Status");
+                    NotifyOfPropertyChange(() => Status);
                 }
             }
         }
@@ -51,12 +64,14 @@ namespace ExpressRunner
         public void ResetBeforeRun()
         {
             runs.Clear();
+            IsActual = false;
         }
 
         public void RecordRun(TestRun run)
         {
             UpdateStatus(run);
             runs.Add(run);
+            IsActual = true;
         }
 
         private void UpdateStatus(TestRun run)
