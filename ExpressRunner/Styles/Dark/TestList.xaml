@@ -100,7 +100,11 @@
                                 </Border.Background>
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal">
-                                        <ContentControl x:Name="StatusIcon" Height="17pt" Margin="0,0,6,0" Style="{StaticResource NotRunIcon}" />
+                                        <ContentControl x:Name="StatusIcon"
+                                                        Height="17pt"
+                                                        Margin="0,0,6,0"
+                                                        Style="{StaticResource NotRunIcon}"
+                                                        VerticalAlignment="Top" />
                                         <TextBlock FontSize="17" Text="{Binding Name}" />
                                     </StackPanel>
                                     <TextBlock x:Name="StackTrace" FontSize="17" Text="{Binding StackTrace}" />

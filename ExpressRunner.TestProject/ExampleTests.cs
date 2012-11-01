@@ -13,7 +13,7 @@ namespace ExpressRunner.TestProject
         [Fact]
         public void Should_fail_always()
         {
-            Assert.True(false);
+            Assert.Equal("napis", "wypis");
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace ExpressRunner.TestProject
         [InlineData(2)]
         public void Should_support_theory(int input)
         {
-            Assert.True(true);
+            Assert.Equal(1, input);
         }
     }
 }
