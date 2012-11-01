@@ -28,6 +28,11 @@ namespace ExpressRunner.XunitPlugin
             Reload();
         }
 
+        public Test GetTestByMethod(string type, string method)
+        {
+            return tests[GetUniqueId(type, method)];
+        }
+
         public Test GetTestByName(string testName)
         {
             return tests[testName];
@@ -89,9 +94,19 @@ namespace ExpressRunner.XunitPlugin
         {
             var name = FormatName(testMethod);
             var path = testMethod.TestClass.TypeName.Replace('.', '/').Replace('+', '/');
-            var uniqueId = testMethod.DisplayName;
+            var uniqueId = GetUniqueId(testMethod);
 
             return new Test(name, path, uniqueId);
+        }
+
+        private static string GetUniqueId(TestMethod testMethod)
+        {
+            return GetUniqueId(testMethod.TestClass.TypeName, testMethod.MethodName);
+        }
+
+        private static string GetUniqueId(string type, string method)
+        {
+            return type + '.' + method;
         }
 
         public override void RunTests(IEnumerable<IRunnableTest> tests)
@@ -132,7 +147,7 @@ namespace ExpressRunner.XunitPlugin
 
             public void TestFailed(string name, string type, string method, double duration, string output, string exceptionType, string message, string stackTrace)
             {
-                UpdateTestStatus(name, Api.TestStatus.Failed);
+                UpdateTestStatus(type, method, Api.TestStatus.Failed);
             }
 
             public bool TestFinished(string name, string type, string method)
@@ -142,27 +157,27 @@ namespace ExpressRunner.XunitPlugin
 
             public void TestPassed(string name, string type, string method, double duration, string output)
             {
-                UpdateTestStatus(name, Api.TestStatus.Succeeded);
+                UpdateTestStatus(type, method, Api.TestStatus.Succeeded);
             }
 
             public void TestSkipped(string name, string type, string method, string reason)
             {
-                UpdateTestStatus(name, Api.TestStatus.NotRun);
+                UpdateTestStatus(type, method, Api.TestStatus.NotRun);
             }
 
             public bool TestStart(string name, string type, string method)
             {
-                return ShouldRunTest(name);
+                return ShouldRunTest(type, method);
             }
 
-            private bool ShouldRunTest(string testName)
+            private bool ShouldRunTest(string type, string method)
             {
-                return runningTests.ContainsKey(testName);
+                return runningTests.ContainsKey(XunitTestAssembly.GetUniqueId(type, method));
             }
 
-            private void UpdateTestStatus(string testName, Api.TestStatus status)
+            private void UpdateTestStatus(string type, string method, Api.TestStatus status)
             {
-                var test = runningTests[testName];
+                var test = runningTests[XunitTestAssembly.GetUniqueId(type, method)];
                 test.RecordRun(status);
             }
         }
