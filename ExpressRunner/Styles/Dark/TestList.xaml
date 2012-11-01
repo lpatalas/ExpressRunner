@@ -57,15 +57,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="6" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <ContentControl Style="{StaticResource SuccessIcon}" VerticalAlignment="Top" Width="21pt" />
-                            <ContentPresenter Grid.Column="2" />
-                        </Grid>
+                        <ContentPresenter />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -105,18 +97,15 @@
     </Style>
 
     <DataTemplate x:Key="TestItem" DataType="{x:Type local:TestItem}">
-        <StackPanel Orientation="Horizontal">
-            <ContentControl x:Name="StatusIcon" Grid.RowSpan="2" Style="{StaticResource NotRunIcon}" />
-            <StackPanel Margin="6,0,0,0" Orientation="Vertical">
-                <TextBlock Grid.Column="1"
-                           FontSize="21"
-                           Text="{Binding Name}" />
-                <TextBlock Grid.Column="1"
-                           Grid.Row="1"
-                           FontSize="14"
-                           Text="{Binding Status}" />
-            </StackPanel>
-        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="6" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ContentControl x:Name="StatusIcon" Style="{StaticResource NotRunIcon}" VerticalAlignment="Top" Width="21pt" />
+            <TextBlock Grid.Column="2" FontSize="21" Text="{Binding Name}" />
+        </Grid>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding Status}" Value="Succeeded">
                 <Setter Property="Style" TargetName="StatusIcon" Value="{StaticResource SuccessIcon}" />
