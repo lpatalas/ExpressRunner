@@ -147,7 +147,7 @@ namespace ExpressRunner.XunitPlugin
 
             public void TestFailed(string name, string type, string method, double duration, string output, string exceptionType, string message, string stackTrace)
             {
-                UpdateTestStatus(type, method, Api.TestStatus.Failed);
+                UpdateTestStatus(name, type, method, Api.TestStatus.Failed);
             }
 
             public bool TestFinished(string name, string type, string method)
@@ -157,12 +157,12 @@ namespace ExpressRunner.XunitPlugin
 
             public void TestPassed(string name, string type, string method, double duration, string output)
             {
-                UpdateTestStatus(type, method, Api.TestStatus.Succeeded);
+                UpdateTestStatus(name, type, method, Api.TestStatus.Succeeded);
             }
 
             public void TestSkipped(string name, string type, string method, string reason)
             {
-                UpdateTestStatus(type, method, Api.TestStatus.NotRun);
+                UpdateTestStatus(name, type, method, Api.TestStatus.NotRun);
             }
 
             public bool TestStart(string name, string type, string method)
@@ -175,10 +175,21 @@ namespace ExpressRunner.XunitPlugin
                 return runningTests.ContainsKey(XunitTestAssembly.GetUniqueId(type, method));
             }
 
-            private void UpdateTestStatus(string type, string method, Api.TestStatus status)
+            private void UpdateTestStatus(string name, string type, string method, Api.TestStatus status)
             {
                 var test = runningTests[XunitTestAssembly.GetUniqueId(type, method)];
-                test.RecordRun(status);
+                var theoryArguments = ExtractTheoryArguments(name);
+                var runName = string.IsNullOrEmpty(theoryArguments) ? status.ToString() : theoryArguments;
+                test.RecordRun(new TestRun(runName, status));
+            }
+
+            private string ExtractTheoryArguments(string name)
+            {
+                var argumentsIndex = name.IndexOf('(');
+                if (argumentsIndex > 0)
+                    return name.Substring(argumentsIndex + 1, name.Length - argumentsIndex - 2);
+
+                return string.Empty;
             }
         }
     

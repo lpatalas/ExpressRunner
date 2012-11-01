@@ -15,18 +15,10 @@ namespace ExpressRunner
             get { return Test.Name; }
         }
 
-        private int runCount;
-        public int RunCount
+        private readonly BindableCollection<TestRun> runs = new BindableCollection<TestRun>();
+        public IObservableCollection<TestRun> Runs
         {
-            get { return runCount; }
-            private set
-            {
-                if (runCount != value)
-                {
-                    runCount = value;
-                    NotifyOfPropertyChange(() => RunCount);
-                }
-            }
+            get { return runs; }
         }
 
         private TestStatus status = TestStatus.NotRun;
@@ -56,10 +48,18 @@ namespace ExpressRunner
             this.test = test;
         }
 
-        public void RecordRun(TestStatus status)
+        public void RecordRun(TestRun run)
         {
-            RunCount++;
-            Status = status;
+            runs.Add(run);
+            UpdateStatus(run);
+        }
+
+        private void UpdateStatus(TestRun run)
+        {
+            if (run.Status == TestStatus.Failed)
+                Status = TestStatus.Failed;
+            else if (Status == TestStatus.NotRun)
+                Status = run.Status;
         }
     }
 }

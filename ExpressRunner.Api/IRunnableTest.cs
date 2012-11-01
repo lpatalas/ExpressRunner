@@ -9,6 +9,6 @@ namespace ExpressRunner.Api
     public interface IRunnableTest
     {
         Test Test { get; }
-        void RecordRun(TestStatus status);
+        void RecordRun(TestRun run);
     }
 }
