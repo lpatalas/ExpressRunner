@@ -64,13 +64,14 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Border Padding="0,0,6,0">
+                        <Border Padding="0,6,6,6">
                             <ToggleButton x:Name="ItemExpander"
                                           IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
                                           Style="{StaticResource TreeViewItemExpander}" />
                         </Border>
                         <Border Grid.Column="1"
-                                Background="{TemplateBinding Background}">
+                                Background="{TemplateBinding Background}"
+                                Padding="0,6,0,6">
                             <ContentPresenter x:Name="PART_Header"
                                               ContentSource="Header" />
                         </Border>
