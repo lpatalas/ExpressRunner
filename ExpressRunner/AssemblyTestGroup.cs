@@ -31,8 +31,10 @@ namespace ExpressRunner
             Run(Tests);
         }
 
-        public void Run(IEnumerable<IRunnableTest> testsToRun)
+        public void Run(IEnumerable<TestItem> testsToRun)
         {
+            foreach (var test in testsToRun)
+                test.ResetBeforeRun();
             assembly.RunTests(testsToRun);
         }
 

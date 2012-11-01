@@ -48,6 +48,11 @@ namespace ExpressRunner
             this.test = test;
         }
 
+        public void ResetBeforeRun()
+        {
+            runs.Clear();
+        }
+
         public void RecordRun(TestRun run)
         {
             UpdateStatus(run);
