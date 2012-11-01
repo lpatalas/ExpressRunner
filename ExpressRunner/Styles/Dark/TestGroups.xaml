@@ -83,6 +83,9 @@
                         <Trigger Property="IsMouseOver" SourceName="PART_Header" Value="True">
                             <Setter Property="Background" Value="#111" />
                         </Trigger>
+                        <Trigger Property="HasItems" Value="False">
+                            <Setter Property="Visibility" TargetName="ItemExpander" Value="Hidden" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
