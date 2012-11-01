@@ -13,7 +13,7 @@ namespace ExpressRunner.TestProject
         [Fact]
         public void Should_fail_always()
         {
-            Assert.Equal("napis", "wypis");
+            Assert.Equal("text", "wrong text");
         }
 
         [Fact]
