@@ -11,6 +11,7 @@ namespace ExpressRunner
     public class TestGroup
     {
         private readonly string name;
+        private readonly AssemblyTestGroup parentAssembly;
         private readonly BindableCollection<TestGroup> subGroups;
         private readonly BindableCollection<TestItem> tests;
 
@@ -29,16 +30,22 @@ namespace ExpressRunner
             get { return tests; }
         }
 
-        public TestGroup(string name)
-            : this(name, Enumerable.Empty<TestGroup>(), Enumerable.Empty<Test>())
+        public TestGroup(string name, AssemblyTestGroup parentAssembly)
+            : this(name, parentAssembly, Enumerable.Empty<TestGroup>(), Enumerable.Empty<Test>())
         {
         }
 
-        public TestGroup(string name, IEnumerable<TestGroup> subGroups, IEnumerable<Test> tests)
+        public TestGroup(string name, AssemblyTestGroup parentAssembly, IEnumerable<TestGroup> subGroups, IEnumerable<Test> tests)
         {
             this.name = name;
+            this.parentAssembly = parentAssembly;
             this.subGroups = new BindableCollection<TestGroup>(subGroups);
             this.tests = new BindableCollection<TestItem>(tests.Select(test => new TestItem(test)));
+        }
+
+        public virtual void Run()
+        {
+            parentAssembly.Run(Tests);
         }
     }
 }

@@ -14,7 +14,6 @@ namespace ExpressRunner
     public class Runner
     {
         private readonly IList<ITestFramework> frameworks;
-        private readonly List<TestAssembly> testAssemblies = new List<TestAssembly>();
         private readonly BindableCollection<AssemblyTestGroup> testGroups = new BindableCollection<AssemblyTestGroup>();
         private readonly BindableCollection<Test> tests = new BindableCollection<Test>();
 
@@ -43,7 +42,6 @@ namespace ExpressRunner
             foreach (var framework in frameworks)
             {
                 var assembly = framework.LoadAssembly(filePath);
-                testAssemblies.Add(assembly);
                 tests.AddRange(assembly.Tests);
 
                 var groupTitle = Path.GetFileName(filePath);
@@ -71,8 +69,7 @@ namespace ExpressRunner
         {
             Task.Factory.StartNew(() =>
             {
-                foreach (var assembly in testAssemblies)
-                    assembly.RunTests(testGroup.Tests);
+                testGroup.Run();
             });
         }
     }

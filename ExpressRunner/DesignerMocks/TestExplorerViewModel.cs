@@ -22,15 +22,15 @@ namespace ExpressRunner.DesignerMocks
 
         public TestExplorerViewModel()
         {
-            selectedTestGroup = new TestGroup("Tests");
+            selectedTestGroup = new TestGroup("Tests", null);
             selectedTestGroup.Tests.Add(new TestItem(new Api.Test("First test", "tests", "1")));
             selectedTestGroup.Tests.Add(new TestItem(new Api.Test("Second test", "tests", "2")));
             selectedTestGroup.Tests.Add(new TestItem(new Api.Test("Third test", "tests", "3")));
 
-            var rootGroup = new TestGroup("Root");
-            rootGroup.SubGroups.Add(new TestGroup("First"));
-            rootGroup.SubGroups.Add(new TestGroup("Second"));
-            rootGroup.SubGroups.Add(new TestGroup("Third"));
+            var rootGroup = new TestGroup("Root", null);
+            rootGroup.SubGroups.Add(new TestGroup("First", null));
+            rootGroup.SubGroups.Add(new TestGroup("Second", null));
+            rootGroup.SubGroups.Add(new TestGroup("Third", null));
             testGroups = Enumerable.Repeat(rootGroup, 1);
         }
     }

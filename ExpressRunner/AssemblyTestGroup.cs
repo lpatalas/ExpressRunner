@@ -12,7 +12,7 @@ namespace ExpressRunner
         private readonly TestAssembly assembly;
 
         public AssemblyTestGroup(TestAssembly assembly, string name, IEnumerable<Test> tests)
-            : base(name)
+            : base(name, null)
         {
             this.assembly = assembly;
             CreateSubGroups(tests);
@@ -24,6 +24,16 @@ namespace ExpressRunner
 
             Reset();
             CreateSubGroups(assembly.Tests);
+        }
+
+        public override void Run()
+        {
+            Run(Tests);
+        }
+
+        public void Run(IEnumerable<IRunnableTest> testsToRun)
+        {
+            assembly.RunTests(testsToRun);
         }
 
         private void Reset()
@@ -48,7 +58,7 @@ namespace ExpressRunner
                     var matchedGroup = currentGroup.SubGroups.FirstOrDefault(subGroup => subGroup.Name.Equals(part));
                     if (matchedGroup == null)
                     {
-                        matchedGroup = new TestGroup(part);
+                        matchedGroup = new TestGroup(part, this);
                         currentGroup.SubGroups.Add(matchedGroup);
                     }
 
