@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Extensions;
 
 namespace ExpressRunner.TestProject
 {
@@ -23,6 +24,14 @@ namespace ExpressRunner.TestProject
 
         [Fact]
         public void Should_pass_also()
+        {
+            Assert.True(true);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void Should_support_theory(int input)
         {
             Assert.True(true);
         }
