@@ -106,7 +106,7 @@
                                                         Style="{StaticResource NotRunIcon}"
                                                         VerticalAlignment="Top" />
                                         <StackPanel Orientation="Vertical">
-                                            <TextBlock FontSize="17" Text="{Binding Name}" />
+                                            <TextBlock FontSize="17" Text="{Binding Description}" />
                                             <TextBlock x:Name="StackTrace" FontSize="17" Text="{Binding StackTrace}" />
                                         </StackPanel>
                                     </StackPanel>

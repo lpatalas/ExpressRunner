@@ -8,10 +8,10 @@ namespace ExpressRunner.Api
 {
     public class TestRun
     {
-        private readonly string name;
-        public string Name
+        private readonly string description;
+        public string Description
         {
-            get { return name; }
+            get { return description; }
         }
 
         private readonly TestStatus status;
@@ -20,12 +20,12 @@ namespace ExpressRunner.Api
             get { return status; }
         }
 
-        public TestRun(string name, TestStatus status)
+        public TestRun(string description, TestStatus status)
         {
-            if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+            if (string.IsNullOrEmpty(description))
+                throw new ArgumentNullException("description");
 
-            this.name = name;
+            this.description = description;
             this.status = status;
         }
     }

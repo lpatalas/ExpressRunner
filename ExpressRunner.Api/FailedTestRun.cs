@@ -14,8 +14,8 @@ namespace ExpressRunner.Api
             get { return stackTrace; }
         }
 
-        public FailedTestRun(string name, string stackTrace)
-            : base(name, TestStatus.Failed)
+        public FailedTestRun(string description, string stackTrace)
+            : base(description, TestStatus.Failed)
         {
             if (string.IsNullOrEmpty(stackTrace))
                 throw new ArgumentNullException("stackTrace");
