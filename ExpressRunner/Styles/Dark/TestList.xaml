@@ -105,9 +105,11 @@
                                                         Margin="0,0,6,0"
                                                         Style="{StaticResource NotRunIcon}"
                                                         VerticalAlignment="Top" />
-                                        <TextBlock FontSize="17" Text="{Binding Name}" />
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock FontSize="17" Text="{Binding Name}" />
+                                            <TextBlock x:Name="StackTrace" FontSize="17" Text="{Binding StackTrace}" />
+                                        </StackPanel>
                                     </StackPanel>
-                                    <TextBlock x:Name="StackTrace" FontSize="17" Text="{Binding StackTrace}" />
                                 </StackPanel>
                             </Border>
                             <DataTemplate.Triggers>

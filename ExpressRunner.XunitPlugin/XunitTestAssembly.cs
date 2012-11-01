@@ -186,7 +186,7 @@ namespace ExpressRunner.XunitPlugin
                 else
                     runName = message;
 
-                test.RecordRun(new FailedTestRun(runName, stackTrace));
+                test.RecordRun(new FailedTestRun(runName, stackTrace.Trim()));
             }
 
             private void UpdateTestStatus(string name, string type, string method, Api.TestStatus status)
