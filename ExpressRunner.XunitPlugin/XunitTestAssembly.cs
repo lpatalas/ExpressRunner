@@ -182,7 +182,7 @@ namespace ExpressRunner.XunitPlugin
                 string runName;
 
                 if (!string.IsNullOrEmpty(theoryArguments))
-                    runName = string.Format("{0} -> {1}", theoryArguments, message);
+                    runName = string.Format("{0} - {1}", theoryArguments, message);
                 else
                     runName = message;
 
@@ -193,7 +193,9 @@ namespace ExpressRunner.XunitPlugin
             {
                 var test = runningTests[XunitTestAssembly.GetUniqueId(type, method)];
                 var theoryArguments = ExtractTheoryArguments(name);
-                var runName = string.IsNullOrEmpty(theoryArguments) ? status.ToString() : theoryArguments;
+                var runName = string.IsNullOrEmpty(theoryArguments)
+                    ? status.ToString()
+                    : theoryArguments + " - " + status;
                 test.RecordRun(new TestRun(runName, status));
             }
 
