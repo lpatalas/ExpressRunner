@@ -50,8 +50,8 @@ namespace ExpressRunner
 
         public void RecordRun(TestRun run)
         {
-            runs.Add(run);
             UpdateStatus(run);
+            runs.Add(run);
         }
 
         private void UpdateStatus(TestRun run)
