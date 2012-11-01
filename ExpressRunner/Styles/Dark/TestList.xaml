@@ -87,24 +87,32 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="6" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <ContentControl x:Name="StatusIcon" Style="{StaticResource NotRunIcon}" VerticalAlignment="Top" Width="21pt" />
                 <TextBlock Grid.Column="2" FontSize="21" Text="{Binding Name}" />
-                <ListBox Grid.Column="2" Grid.Row="2" ItemsSource="{Binding Runs}" Style="{StaticResource TestListBox}">
+                <ListBox x:Name="RunList" Grid.Column="2" Grid.Row="1" ItemsSource="{Binding Runs}" Margin="0,6,0,0" Style="{StaticResource TestListBox}">
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type api:TestRun}">
                             <Border x:Name="bg" Margin="-6,0,-6,-6" Padding="6">
                                 <Border.Background>
                                     <SolidColorBrush Color="#fff" Opacity="0.1" />
                                 </Border.Background>
-                                <StackPanel Orientation="Horizontal">
-                                    <ContentControl x:Name="StatusIcon" Height="17pt" Margin="0,0,6,0" Style="{StaticResource NotRunIcon}" />
-                                    <TextBlock FontSize="17" Text="{Binding Name}" />
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <ContentControl x:Name="StatusIcon" Height="17pt" Margin="0,0,6,0" Style="{StaticResource NotRunIcon}" />
+                                        <TextBlock FontSize="17" Text="{Binding Name}" />
+                                    </StackPanel>
+                                    <TextBlock x:Name="StackTrace" FontSize="17" Text="{Binding StackTrace}" />
                                 </StackPanel>
                             </Border>
                             <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding StackTrace}" Value="">
+                                    <Setter Property="Visibility" TargetName="StackTrace" Value="Collapsed" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding StackTrace}" Value="{x:Null}">
+                                    <Setter Property="Visibility" TargetName="StackTrace" Value="Collapsed" />
+                                </DataTrigger>
                                 <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"
                          Value="True">
                                     <DataTrigger.EnterActions>
@@ -151,6 +159,16 @@
             </Grid>
         </Border>
         <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Runs.Count}" Value="0">
+                <Setter Property="Visibility" TargetName="RunList" Value="Collapsed" />
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Runs.Count}" Value="1" />
+                    <Condition Binding="{Binding Status}" Value="Succeeded" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" TargetName="RunList" Value="Collapsed" />
+            </MultiDataTrigger>
             <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"
                          Value="True">
                 <DataTrigger.EnterActions>

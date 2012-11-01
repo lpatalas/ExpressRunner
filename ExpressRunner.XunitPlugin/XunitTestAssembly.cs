@@ -147,7 +147,7 @@ namespace ExpressRunner.XunitPlugin
 
             public void TestFailed(string name, string type, string method, double duration, string output, string exceptionType, string message, string stackTrace)
             {
-                UpdateTestStatus(name, type, method, Api.TestStatus.Failed);
+                UpdateFailedTestStatus(name, type, method, exceptionType, message, stackTrace);
             }
 
             public bool TestFinished(string name, string type, string method)
@@ -173,6 +173,20 @@ namespace ExpressRunner.XunitPlugin
             private bool ShouldRunTest(string type, string method)
             {
                 return runningTests.ContainsKey(XunitTestAssembly.GetUniqueId(type, method));
+            }
+
+            private void UpdateFailedTestStatus(string name, string type, string method, string exceptionType, string message, string stackTrace)
+            {
+                var test = runningTests[XunitTestAssembly.GetUniqueId(type, method)];
+                var theoryArguments = ExtractTheoryArguments(name);
+                string runName;
+
+                if (!string.IsNullOrEmpty(theoryArguments))
+                    runName = string.Format("{0} -> {1}", theoryArguments, message);
+                else
+                    runName = message;
+
+                test.RecordRun(new FailedTestRun(runName, stackTrace));
             }
 
             private void UpdateTestStatus(string name, string type, string method, Api.TestStatus status)
