@@ -38,9 +38,9 @@ namespace ExpressRunner.TestProject
         }
 
         [Fact]
-        public void Should_take_a_long_time_to_run()
+        public void Should_take_one_second_to_finish()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
             Assert.True(true);
         }
     }
