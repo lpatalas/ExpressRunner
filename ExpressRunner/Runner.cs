@@ -14,7 +14,7 @@ namespace ExpressRunner
     public class Runner
     {
         public event EventHandler RunStarting;
-        public event EventHandler RunFinished;
+        public event EventHandler<RunFinishedEventArgs> RunFinished;
 
         public void RunTests(TestGroup testGroup)
         {
@@ -23,8 +23,17 @@ namespace ExpressRunner
             Task.Factory.StartNew(() =>
             {
                 testGroup.Run();
-                Execute.OnUIThread(() => OnRunFinished());
+                var runStatus = GetAggregatedStatus(testGroup.Tests);
+                Execute.OnUIThread(() => OnRunFinished(runStatus));
             });
+        }
+
+        private TestStatus GetAggregatedStatus(IEnumerable<TestItem> runItems)
+        {
+            if (runItems.Any(item => item.Status == TestStatus.Failed))
+                return TestStatus.Failed;
+
+            return TestStatus.Succeeded;
         }
 
         private void OnRunStarting()
@@ -34,11 +43,11 @@ namespace ExpressRunner
                 handler(this, EventArgs.Empty);
         }
 
-        private void OnRunFinished()
+        private void OnRunFinished(TestStatus status)
         {
-            EventHandler handler = RunFinished;
+            EventHandler<RunFinishedEventArgs> handler = RunFinished;
             if (handler != null)
-                handler(this, EventArgs.Empty);
+                handler(this, new RunFinishedEventArgs(status));
         }
     }
 }

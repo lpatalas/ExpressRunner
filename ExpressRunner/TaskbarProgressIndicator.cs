@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shell;
 using System.Windows.Threading;
+using ExpressRunner.Api;
 
 namespace ExpressRunner
 {
@@ -42,11 +43,19 @@ namespace ExpressRunner
         private void runner_RunStarting(object sender, EventArgs e)
         {
             taskbarItem.ProgressState = TaskbarItemProgressState.Indeterminate;
+            taskbarItem.ProgressValue = 0;
         }
 
-        private void runner_RunFinished(object sender, EventArgs e)
+        private void runner_RunFinished(object sender, RunFinishedEventArgs e)
         {
-            taskbarItem.ProgressState = TaskbarItemProgressState.None;
+            taskbarItem.ProgressValue = 1.0;
+
+            if (e.Status == TestStatus.Succeeded)
+                taskbarItem.ProgressState = TaskbarItemProgressState.Normal;
+            else if (e.Status == TestStatus.Failed)
+                taskbarItem.ProgressState = TaskbarItemProgressState.Error;
+            else
+                taskbarItem.ProgressState = TaskbarItemProgressState.None;
         }
     }
 }
