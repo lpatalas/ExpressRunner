@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Extensions;
@@ -34,6 +35,13 @@ namespace ExpressRunner.TestProject
         public void Should_support_theory(int input)
         {
             Assert.Equal(1, input);
+        }
+
+        [Fact]
+        public void Should_take_a_long_time_to_run()
+        {
+            Thread.Sleep(5000);
+            Assert.True(true);
         }
     }
 }
