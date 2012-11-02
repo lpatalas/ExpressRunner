@@ -21,6 +21,7 @@ namespace ExpressRunner
         };
 
         private readonly Runner runner;
+        private readonly TestRepository testRepository;
 
         private TestGroup selectedTestGroup;
         public TestGroup SelectedTestGroup
@@ -38,26 +39,34 @@ namespace ExpressRunner
 
         public IObservableCollection<AssemblyTestGroup> TestGroups
         {
-            get { return runner.TestGroups; }
+            get { return testRepository.TestGroups; }
         }
 
         [ImportingConstructor]
-        public TestExplorerViewModel([Import] Runner runner)
+        public TestExplorerViewModel(
+            [Import] Runner runner,
+            [Import] TestRepository testRepository)
         {
+            if (runner == null)
+                throw new ArgumentNullException("runner");
+            if (testRepository == null)
+                throw new ArgumentNullException("testRepository");
+
             this.runner = runner;
+            this.testRepository = testRepository;
         }
 
         public void OpenAssembly()
         {
             if (openDialog.ShowDialog() == true)
             {
-                runner.LoadTests(openDialog.FileName);
+                testRepository.LoadTests(openDialog.FileName);
             }
         }
 
         public void ReloadAllAssemblies()
         {
-            runner.ReloadAssemblies();
+            testRepository.ReloadAssemblies();
         }
 
         public void ReloadAssembly(AssemblyTestGroup assembly)
@@ -67,7 +76,7 @@ namespace ExpressRunner
 
         public void RemoveAssembly(AssemblyTestGroup assembly)
         {
-            runner.TestGroups.Remove(assembly);
+            testRepository.TestGroups.Remove(assembly);
         }
 
         public void RunTests(TestGroup assembly)
