@@ -71,28 +71,31 @@ namespace ExpressRunner.XunitPlugin
         private void UpdateFailedTestStatus(string name, string type, string method, string exceptionType, string message, string stackTrace)
         {
             var test = runningTests[XunitHelper.GetTestUniqueId(type, method)];
-            var theoryArguments = ExtractTheoryArguments(name);
-            string runName;
-
-            if (!string.IsNullOrEmpty(theoryArguments))
-                runName = string.Format("{0} - {1}", theoryArguments, message);
-            else
-                runName = message;
-
-            test.RecordRun(new FailedTestRun(runName, stackTrace.Trim()));
+            string description = FormatRunDescription(name, message);
+            test.RecordRun(new FailedTestRun(description, stackTrace.Trim()));
         }
 
         private void UpdateTestStatus(string name, string type, string method, Api.TestStatus status)
         {
             var test = runningTests[XunitHelper.GetTestUniqueId(type, method)];
-            var theoryArguments = ExtractTheoryArguments(name);
-            var runName = string.IsNullOrEmpty(theoryArguments)
-                ? status.ToString()
-                : theoryArguments + " - " + status;
-            test.RecordRun(new TestRun(runName, status));
+            var description = FormatRunDescription(name, status.ToString());
+            test.RecordRun(new TestRun(description, status));
         }
 
-        private string ExtractTheoryArguments(string name)
+        private string FormatRunDescription(string testName, string message)
+        {
+            string description;
+
+            var theoryArguments = ParseTheoryArguments(testName);
+            if (!string.IsNullOrEmpty(theoryArguments))
+                description = string.Format("{0} - {1}", theoryArguments, message);
+            else
+                description = message;
+
+            return description;
+        }
+
+        private string ParseTheoryArguments(string name)
         {
             var argumentsIndex = name.IndexOf('(');
             if (argumentsIndex > 0)
