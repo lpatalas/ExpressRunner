@@ -46,6 +46,8 @@
     <Compile Include="TestCollection.cs" />
     <Compile Include="XunitFramework.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestRunnerLogger.cs" />
+    <Compile Include="XunitHelper.cs" />
     <Compile Include="XunitTestAssembly.cs" />
   </ItemGroup>
   <ItemGroup>
