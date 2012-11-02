@@ -63,15 +63,23 @@ namespace ExpressRunner
 
         public void ResetBeforeRun()
         {
-            runs.Clear();
             IsActual = false;
         }
 
         public void RecordRun(TestRun run)
         {
-            UpdateStatus(run);
-            runs.Add(run);
-            IsActual = true;
+            if (!IsActual)
+            {
+                runs.Clear();
+                runs.Add(run);
+                Status = run.Status;
+                IsActual = true;
+            }
+            else
+            {
+                UpdateStatus(run);
+                runs.Add(run);
+            }
         }
 
         private void UpdateStatus(TestRun run)
