@@ -45,27 +45,26 @@ namespace ExpressRunner
             AddTests(tests);
         }
 
-        public void Reload()
+        public async void Reload()
         {
             OnReloadStarting();
 
-            if (!File.Exists(assembly.SourceFilePath))
-            {
-                IsMissing = true;
+            IsMissing = !File.Exists(assembly.SourceFilePath);
+            if (IsMissing)
                 Tests.Clear();
-                OnReloadFinished();
-            }
             else
-            {
-                IsMissing = false;
+                await ReloadAssemblyAsync();
 
-                Task.Factory.StartNew(() =>
-                {
-                    assembly.Reload();
-                    UpdateReloadedItems();
-                    Execute.OnUIThread(() => OnReloadFinished());
-                });
-            }
+            OnReloadFinished();
+        }
+
+        private Task ReloadAssemblyAsync()
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                assembly.Reload();
+                UpdateReloadedItems();
+            });
         }
 
         private void OnReloadStarting()
