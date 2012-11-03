@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Caliburn.Micro;
 using ExpressRunner.Api;
 
 namespace ExpressRunner
@@ -11,7 +12,10 @@ namespace ExpressRunner
     public class AssemblyTestGroup : TestGroup
     {
         private readonly TestAssembly assembly;
-        private readonly FileSystemWatcher assemblyFileWatcher;
+        private readonly AssemblyFileWatcher fileWatcher;
+
+        public event EventHandler ReloadStarting;
+        public event EventHandler ReloadFinished;
 
         public AssemblyTestGroup(TestAssembly assembly, string name, IEnumerable<Test> tests)
             : base(name, null)
@@ -22,60 +26,34 @@ namespace ExpressRunner
                 throw new ArgumentNullException("name");
 
             this.assembly = assembly;
-            this.assemblyFileWatcher = CreateAssemblyFileWatcher(assembly.SourceFilePath);
+            this.fileWatcher = new AssemblyFileWatcher(this, assembly.SourceFilePath);
 
             AddTests(tests);
         }
 
-        private FileSystemWatcher CreateAssemblyFileWatcher(string filePath)
-        {
-            var directory = Path.GetDirectoryName(filePath);
-            var fileName = Path.GetFileName(filePath);
-            var watcher = new FileSystemWatcher
-            {
-                Filter = fileName,
-                IncludeSubdirectories = false,
-                NotifyFilter = NotifyFilters.LastWrite,
-                Path = directory,
-            };
-
-            watcher.Changed += assemblyFileWatcher_Changed;
-            watcher.Deleted += assemblyFileWatcher_Deleted;
-            watcher.Renamed += assemblyFileWatcher_Renamed;
-            watcher.EnableRaisingEvents = true;
-
-            return watcher;
-        }
-
-        private void assemblyFileWatcher_Changed(object sender, FileSystemEventArgs e)
-        {
-            if (e.ChangeType == WatcherChangeTypes.Changed)
-                OnAssemblyFileModified();
-        }
-
-        private void assemblyFileWatcher_Deleted(object sender, FileSystemEventArgs e)
-        {
-            OnAssemblyFileDeleted();
-        }
-
-        private void assemblyFileWatcher_Renamed(object sender, RenamedEventArgs e)
-        {
-            OnAssemblyFileDeleted();
-        }
-
-        private void OnAssemblyFileModified()
-        {
-            Reload();
-        }
-
-        private void OnAssemblyFileDeleted()
-        {
-        }
-
         public void Reload()
         {
-            assembly.Reload();
-            UpdateReloadedItems();
+            OnReloadStarting();
+            Task.Factory.StartNew(() =>
+            {
+                assembly.Reload();
+                UpdateReloadedItems();
+                Execute.OnUIThread(() => OnReloadFinished());
+            });
+        }
+
+        private void OnReloadStarting()
+        {
+            EventHandler handler = ReloadStarting;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        private void OnReloadFinished()
+        {
+            EventHandler handler = ReloadFinished;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
         }
 
         private void UpdateReloadedItems()
