@@ -12,6 +12,7 @@ namespace ExpressRunner
     public class AssemblyTestGroup : TestGroup
     {
         private readonly TestAssembly assembly;
+        private readonly IEventAggregator eventAggregator;
         private readonly AssemblyFileWatcher fileWatcher;
 
         private bool isMissing;
@@ -31,13 +32,16 @@ namespace ExpressRunner
         public event EventHandler ReloadStarting;
         public event EventHandler ReloadFinished;
 
-        public AssemblyTestGroup(TestAssembly assembly)
+        public AssemblyTestGroup(TestAssembly assembly, IEventAggregator eventAggregator)
             : base(FormatGroupName(assembly), null)
         {
             if (assembly == null)
                 throw new ArgumentNullException("assembly");
+            if (eventAggregator == null)
+                throw new ArgumentNullException("eventAggregator");
 
             this.assembly = assembly;
+            this.eventAggregator = eventAggregator;
             this.fileWatcher = new AssemblyFileWatcher(this, assembly.SourceFilePath);
 
             AddTests(assembly.Tests);
@@ -108,6 +112,8 @@ namespace ExpressRunner
             EventHandler handler = ReloadFinished;
             if (handler != null)
                 handler(this, EventArgs.Empty);
+
+            eventAggregator.Publish(new AssemblyReloadedEvent(this));
         }
 
         private void UpdateReloadedItems()

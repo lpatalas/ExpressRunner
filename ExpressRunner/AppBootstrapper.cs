@@ -16,11 +16,30 @@ namespace ExpressRunner
 
         public AppBootstrapper()
         {
+            this.container = CreateContainer();
+        }
+
+        private CompositionContainer CreateContainer()
+        {
             var appCatalog = new AssemblyCatalog(Assembly.GetExecutingAssembly());
             var pluginsCatalog = new AssemblyCatalog(typeof(XunitPlugin.XunitFramework).Assembly);
             var catalog = new AggregateCatalog(appCatalog, pluginsCatalog);
 
-            this.container = new CompositionContainer(catalog);
+            var container = new CompositionContainer(catalog);
+            AddExportedValues(container);
+
+            return container;
+        }
+
+        private void AddExportedValues(CompositionContainer container)
+        {
+            var batch = new CompositionBatch();
+            batch.AddExportedValue<IEventAggregator>(new EventAggregator());
+            container.Compose(batch);
+        }
+
+        protected override void Configure()
+        {
         }
 
         protected override void BuildUp(object instance)

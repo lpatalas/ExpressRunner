@@ -11,10 +11,22 @@ using ExpressRunner.Api;
 namespace ExpressRunner
 {
     [Export]
-    public class Runner
+    public class Runner : IHandle<AssemblyReloadedEvent>
     {
+        private readonly IEventAggregator eventAggregator;
+
         public event EventHandler RunStarting;
         public event EventHandler<RunFinishedEventArgs> RunFinished;
+
+        [ImportingConstructor]
+        public Runner([Import] IEventAggregator eventAggregator)
+        {
+            if (eventAggregator == null)
+                throw new ArgumentNullException("eventAggregator");
+
+            this.eventAggregator = eventAggregator;
+            eventAggregator.Subscribe(this);
+        }
 
         public void RunTests(TestGroup testGroup)
         {
@@ -48,6 +60,10 @@ namespace ExpressRunner
             EventHandler<RunFinishedEventArgs> handler = RunFinished;
             if (handler != null)
                 handler(this, new RunFinishedEventArgs(status));
+        }
+
+        void IHandle<AssemblyReloadedEvent>.Handle(AssemblyReloadedEvent message)
+        {
         }
     }
 }
