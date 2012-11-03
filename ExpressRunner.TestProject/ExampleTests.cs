@@ -14,7 +14,7 @@ namespace ExpressRunner.TestProject
         [Fact]
         public void Should_fail_always()
         {
-            Assert.Equal("text", "wrong text");
+            Assert.Equal("text", "other text");
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace ExpressRunner.TestProject
         [InlineData(2)]
         public void Should_support_theory(int input)
         {
-            Assert.Equal(1, input);
+            Assert.Equal(0, input / 10);
         }
 
         [Fact]

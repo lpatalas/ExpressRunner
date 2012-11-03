@@ -8,10 +8,10 @@ namespace ExpressRunner.Api
 {
     public abstract class TestAssembly
     {
-        private readonly ITestFramework framework;
-        public ITestFramework Framework
+        private readonly string sourceFilePath;
+        public string SourceFilePath
         {
-            get { return framework; }
+            get { return sourceFilePath; }
         }
 
         public abstract IEnumerable<Test> Tests { get; }
@@ -19,11 +19,12 @@ namespace ExpressRunner.Api
         public abstract void Reload();
         public abstract void RunTests(IEnumerable<IRunnableTest> tests);
 
-        protected TestAssembly(ITestFramework framework)
+        protected TestAssembly(string sourceFilePath)
         {
-            if (framework == null)
-                throw new ArgumentNullException("framework");
-            this.framework = framework;
+            if (string.IsNullOrEmpty(sourceFilePath))
+                throw new ArgumentNullException("sourceFilePath");
+
+            this.sourceFilePath = sourceFilePath;
         }
     }
 }

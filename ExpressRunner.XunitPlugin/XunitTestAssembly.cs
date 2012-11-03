@@ -21,7 +21,7 @@ namespace ExpressRunner.XunitPlugin
         }
 
         public XunitTestAssembly(XunitFramework framework, string assemblyFileName)
-            : base(framework)
+            : base(assemblyFileName)
         {
             this.assemblyFileName = assemblyFileName;
 
