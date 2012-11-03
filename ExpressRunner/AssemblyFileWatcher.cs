@@ -10,6 +10,7 @@ namespace ExpressRunner
 {
     public class AssemblyFileWatcher
     {
+        private readonly string assemblyFilePath;
         private readonly AssemblyTestGroup assemblyTestGroup;
         private readonly FileSystemWatcher fileSystemWatcher;
 
@@ -20,6 +21,7 @@ namespace ExpressRunner
             if (string.IsNullOrEmpty(sourceFilePath))
                 throw new ArgumentNullException("sourceFilePath");
 
+            this.assemblyFilePath = sourceFilePath.ToLower();
             this.assemblyTestGroup = assemblyTestGroup;
             this.fileSystemWatcher = CreateAssemblyFileWatcher(sourceFilePath);
 
@@ -34,11 +36,11 @@ namespace ExpressRunner
             {
                 Filter = fileName,
                 IncludeSubdirectories = false,
-                NotifyFilter = NotifyFilters.LastWrite,
                 Path = directory,
             };
 
             watcher.Changed += OnAssemblyFileChanged;
+            watcher.Created += OnAssemblyFileChanged;
             watcher.Deleted += OnAssemblyFileChanged;
             watcher.Renamed += OnAssemblyFileChanged;
             watcher.EnableRaisingEvents = true;
@@ -48,7 +50,7 @@ namespace ExpressRunner
 
         private void OnAssemblyFileChanged(object sender, FileSystemEventArgs e)
         {
-            if (e.ChangeType == WatcherChangeTypes.Changed)
+            if (string.Equals(assemblyFilePath, e.FullPath, StringComparison.OrdinalIgnoreCase))
             {
                 Trace.TraceInformation("Reloading " + assemblyTestGroup.Name);
                 assemblyTestGroup.Reload();

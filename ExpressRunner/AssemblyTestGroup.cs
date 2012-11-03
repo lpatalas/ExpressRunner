@@ -14,6 +14,20 @@ namespace ExpressRunner
         private readonly TestAssembly assembly;
         private readonly AssemblyFileWatcher fileWatcher;
 
+        private bool isMissing;
+        public bool IsMissing
+        {
+            get { return isMissing; }
+            private set
+            {
+                if (isMissing != value)
+                {
+                    isMissing = value;
+                    NotifyOfPropertyChange(() => IsMissing);
+                }
+            }
+        }
+
         public event EventHandler ReloadStarting;
         public event EventHandler ReloadFinished;
 
@@ -34,12 +48,24 @@ namespace ExpressRunner
         public void Reload()
         {
             OnReloadStarting();
-            Task.Factory.StartNew(() =>
+
+            if (!File.Exists(assembly.SourceFilePath))
             {
-                assembly.Reload();
-                UpdateReloadedItems();
-                Execute.OnUIThread(() => OnReloadFinished());
-            });
+                IsMissing = true;
+                Tests.Clear();
+                OnReloadFinished();
+            }
+            else
+            {
+                IsMissing = false;
+
+                Task.Factory.StartNew(() =>
+                {
+                    assembly.Reload();
+                    UpdateReloadedItems();
+                    Execute.OnUIThread(() => OnReloadFinished());
+                });
+            }
         }
 
         private void OnReloadStarting()

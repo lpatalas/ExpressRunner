@@ -8,7 +8,7 @@ using ExpressRunner.Api;
 
 namespace ExpressRunner
 {
-    public class TestGroup
+    public class TestGroup : PropertyChangedBase
     {
         private readonly string name;
         private readonly AssemblyTestGroup parentAssembly;

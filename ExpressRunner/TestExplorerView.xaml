@@ -60,7 +60,10 @@
                                 <ColumnDefinition Width="7" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Name}" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock x:Name="MissingLabel" Foreground="Red" Text="[missing]" Visibility="Collapsed" />
+                            </StackPanel>
                             <Button Grid.Column="1"
                                     cal:Message.Attach="[Event Click] = [Action RunTests($dataContext)]"
                                     Style="{StaticResource LinkButton}">
@@ -85,6 +88,11 @@
                                 remove
                             </Button>
                         </Grid>
+                        <HierarchicalDataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsMissing}" Value="True">
+                                <Setter Property="Visibility" TargetName="MissingLabel" Value="Visible" />
+                            </DataTrigger>
+                        </HierarchicalDataTemplate.Triggers>
                     </HierarchicalDataTemplate>
                 </TreeView.Resources>
             </TreeView>
