@@ -64,14 +64,14 @@ namespace ExpressRunner
             }
         }
 
-        public void ReloadAllAssemblies()
+        public async void ReloadAllAssemblies()
         {
-            testRepository.ReloadAssemblies();
+            await testRepository.ReloadAssembliesAsync();
         }
 
-        public void ReloadAssembly(AssemblyTestGroup assembly)
+        public async void ReloadAssembly(AssemblyTestGroup assembly)
         {
-            assembly.Reload();
+            await assembly.ReloadAsync();
         }
 
         public void RemoveAssembly(AssemblyTestGroup assembly)

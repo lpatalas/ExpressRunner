@@ -53,10 +53,10 @@ namespace ExpressRunner
             tests.Refresh();
         }
 
-        public void ReloadAssemblies()
+        public async Task ReloadAssembliesAsync()
         {
             foreach (var assemblyTestGroup in testGroups)
-                assemblyTestGroup.Reload();
+                await assemblyTestGroup.ReloadAsync();
         }
 
         private void CreateGroup(TestAssembly assembly, string groupTitle, IEnumerable<Test> tests)

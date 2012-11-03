@@ -45,7 +45,7 @@ namespace ExpressRunner
             AddTests(tests);
         }
 
-        public async void Reload()
+        public async Task ReloadAsync()
         {
             OnReloadStarting();
 

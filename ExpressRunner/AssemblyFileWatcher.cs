@@ -48,12 +48,12 @@ namespace ExpressRunner
             return watcher;
         }
 
-        private void OnAssemblyFileChanged(object sender, FileSystemEventArgs e)
+        private async void OnAssemblyFileChanged(object sender, FileSystemEventArgs e)
         {
             if (string.Equals(assemblyFilePath, e.FullPath, StringComparison.OrdinalIgnoreCase))
             {
                 Trace.TraceInformation("Reloading " + assemblyTestGroup.Name);
-                assemblyTestGroup.Reload();
+                await assemblyTestGroup.ReloadAsync();
             }
         }
 
