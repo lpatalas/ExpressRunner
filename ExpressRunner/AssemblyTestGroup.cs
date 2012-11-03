@@ -31,18 +31,47 @@ namespace ExpressRunner
         public event EventHandler ReloadStarting;
         public event EventHandler ReloadFinished;
 
-        public AssemblyTestGroup(TestAssembly assembly, string name, IEnumerable<Test> tests)
-            : base(name, null)
+        public AssemblyTestGroup(TestAssembly assembly)
+            : base(FormatGroupName(assembly), null)
         {
             if (assembly == null)
                 throw new ArgumentNullException("assembly");
-            if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
 
             this.assembly = assembly;
             this.fileWatcher = new AssemblyFileWatcher(this, assembly.SourceFilePath);
 
-            AddTests(tests);
+            AddTests(assembly.Tests);
+        }
+
+        private void AddTests(IEnumerable<Test> tests)
+        {
+            var testItems = tests.Select(test => new TestItem(test));
+
+            foreach (var testItem in testItems)
+            {
+                this.Tests.Add(testItem);
+                var groups = testItem.Test.Path.Split('/');
+
+                TestGroup currentGroup = this;
+
+                foreach (var part in groups)
+                {
+                    var matchedGroup = currentGroup.SubGroups.FirstOrDefault(subGroup => subGroup.Name.Equals(part));
+                    if (matchedGroup == null)
+                    {
+                        matchedGroup = new TestGroup(part, this);
+                        currentGroup.SubGroups.Add(matchedGroup);
+                    }
+
+                    matchedGroup.Tests.Add(testItem);
+                    currentGroup = matchedGroup;
+                }
+            }
+        }
+
+        private static string FormatGroupName(TestAssembly assembly)
+        {
+            return Path.GetFileName(assembly.SourceFilePath);
         }
 
         public async Task ReloadAsync()
@@ -126,32 +155,6 @@ namespace ExpressRunner
         {
             SubGroups.Clear();
             Tests.Clear();
-        }
-
-        private void AddTests(IEnumerable<Test> tests)
-        {
-            var testItems = tests.Select(test => new TestItem(test));
-
-            foreach (var testItem in testItems)
-            {
-                this.Tests.Add(testItem);
-                var groups = testItem.Test.Path.Split('/');
-
-                TestGroup currentGroup = this;
-
-                foreach (var part in groups)
-                {
-                    var matchedGroup = currentGroup.SubGroups.FirstOrDefault(subGroup => subGroup.Name.Equals(part));
-                    if (matchedGroup == null)
-                    {
-                        matchedGroup = new TestGroup(part, this);
-                        currentGroup.SubGroups.Add(matchedGroup);
-                    }
-
-                    matchedGroup.Tests.Add(testItem);
-                    currentGroup = matchedGroup;
-                }
-            }
         }
     }
 }

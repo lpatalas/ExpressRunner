@@ -44,8 +44,8 @@ namespace ExpressRunner
                 var assembly = framework.LoadAssembly(filePath);
                 tests.AddRange(assembly.Tests);
 
-                var groupTitle = Path.GetFileName(filePath);
-                CreateGroup(assembly, groupTitle, assembly.Tests);
+                var newGroup = new AssemblyTestGroup(assembly);
+                testGroups.Add(newGroup);
             }
 
 
@@ -57,12 +57,6 @@ namespace ExpressRunner
         {
             foreach (var assemblyTestGroup in testGroups)
                 await assemblyTestGroup.ReloadAsync();
-        }
-
-        private void CreateGroup(TestAssembly assembly, string groupTitle, IEnumerable<Test> tests)
-        {
-            var root = new AssemblyTestGroup(assembly, groupTitle, tests);
-            testGroups.Add(root);
         }
     }
 }
