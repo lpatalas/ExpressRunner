@@ -32,7 +32,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <StackPanel Orientation="Horizontal">
-                        <Border Background="Transparent" BorderBrush="White" BorderThickness="2" Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}">
+                        <Border Background="Transparent" BorderBrush="White" BorderThickness="1" Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}">
                             <Grid>
                                 <Viewbox x:Name="TickMark" Stretch="Uniform" Visibility="Hidden">
                                     <Path Data="M 6 16 L 16 26 L 26 6" Height="32" Stroke="White" StrokeThickness="3" Width="32" />
