@@ -99,7 +99,10 @@ namespace ExpressRunner
 
         protected IEnumerable<TestItem> GetEnabledTests()
         {
-            return Tests.Where(item => item.IsEnabled);
+            return Tests
+                .Where(item => item.IsEnabled)
+                .ToList()
+                .AsReadOnly();
         }
 
         private AssemblyTestGroup GetParentAssemblyTestGroup()

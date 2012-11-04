@@ -54,6 +54,7 @@ namespace ExpressRunner
             {
                 Trace.TraceInformation("Reloading " + assemblyTestGroup.Name);
                 await assemblyTestGroup.ReloadAsync();
+                await assemblyTestGroup.RunAsync();
             }
         }
 
