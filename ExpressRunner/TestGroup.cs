@@ -43,9 +43,9 @@ namespace ExpressRunner
             this.tests = new BindableCollection<TestItem>(tests.Select(test => new TestItem(test)));
         }
 
-        public virtual void Run()
+        public virtual Task RunAsync()
         {
-            parentAssembly.Run(Tests);
+            return parentAssembly.RunAsync(Tests);
         }
 
         protected void RemoveEmptySubGroups()

@@ -145,16 +145,42 @@ namespace ExpressRunner
                 item.IsActual = false;
         }
 
-        public override void Run()
+        public override Task RunAsync()
         {
-            Run(Tests);
+            return RunAsync(Tests);
         }
 
-        public void Run(IEnumerable<TestItem> testsToRun)
+        public Task RunAsync(IEnumerable<TestItem> testsToRun)
         {
-            foreach (var test in testsToRun)
-                test.ResetBeforeRun();
-            assembly.RunTests(testsToRun);
+            OnRunStarting();
+
+            return Task.Factory.StartNew(() =>
+            {
+                foreach (var test in testsToRun)
+                    test.ResetBeforeRun();
+                assembly.RunTests(testsToRun);
+
+                Execute.OnUIThread(() => OnRunFinished(testsToRun));
+            });
+        }
+
+        private void OnRunStarting()
+        {
+            eventAggregator.Publish(new RunStartingEvent());
+        }
+
+        private void OnRunFinished(IEnumerable<TestItem> finishedTests)
+        {
+            var aggregatedStatus = GetAggregatedStatus(finishedTests);
+            eventAggregator.Publish(new RunFinishedEvent(aggregatedStatus));
+        }
+
+        private static TestStatus GetAggregatedStatus(IEnumerable<TestItem> runItems)
+        {
+            if (runItems.Any(item => item.Status == TestStatus.Failed))
+                return TestStatus.Failed;
+
+            return TestStatus.Succeeded;
         }
 
         private void Reset()

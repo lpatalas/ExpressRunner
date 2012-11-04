@@ -67,8 +67,9 @@
     <Compile Include="AssemblyReloadedEvent.cs" />
     <Compile Include="AssemblyTestGroup.cs" />
     <Compile Include="DesignerMocks\TestExplorerViewModel.cs" />
+    <Compile Include="RunFinishedEvent.cs" />
     <Compile Include="RunFinishedEventArgs.cs" />
-    <Compile Include="Runner.cs" />
+    <Compile Include="RunStartingEvent.cs" />
     <Compile Include="ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>

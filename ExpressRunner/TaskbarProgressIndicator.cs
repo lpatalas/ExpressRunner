@@ -6,14 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shell;
 using System.Windows.Threading;
+using Caliburn.Micro;
 using ExpressRunner.Api;
 
 namespace ExpressRunner
 {
     [Export]
     public class TaskbarProgressIndicator
+        : IHandle<RunStartingEvent>
+        , IHandle<RunFinishedEvent>
     {
-        private readonly Runner runner;
+        private readonly IEventAggregator eventAggregator;
         private readonly TaskbarItemInfo taskbarItem;
 
         public TaskbarItemInfo TaskbarItemInfo
@@ -23,36 +26,30 @@ namespace ExpressRunner
 
         [ImportingConstructor]
         public TaskbarProgressIndicator(
-            [Import] Runner runner)
+            [Import] IEventAggregator eventAggregator)
         {
-            if (runner == null)
-                throw new ArgumentNullException("runner");
+            if (eventAggregator == null)
+                throw new ArgumentNullException("eventAggregator");
 
-            this.runner = runner;
+            this.eventAggregator = eventAggregator;
             this.taskbarItem = new TaskbarItemInfo();
 
-            HookRunnerEvents();
+            eventAggregator.Subscribe(this);
         }
 
-        private void HookRunnerEvents()
-        {
-            runner.RunStarting += runner_RunStarting;
-            runner.RunFinished += runner_RunFinished;
-        }
-
-        private void runner_RunStarting(object sender, EventArgs e)
+        void IHandle<RunStartingEvent>.Handle(RunStartingEvent message)
         {
             taskbarItem.ProgressState = TaskbarItemProgressState.Indeterminate;
             taskbarItem.ProgressValue = 0;
         }
 
-        private void runner_RunFinished(object sender, RunFinishedEventArgs e)
+        void IHandle<RunFinishedEvent>.Handle(RunFinishedEvent message)
         {
             taskbarItem.ProgressValue = 1.0;
 
-            if (e.Status == TestStatus.Succeeded)
+            if (message.Status == TestStatus.Succeeded)
                 taskbarItem.ProgressState = TaskbarItemProgressState.Normal;
-            else if (e.Status == TestStatus.Failed)
+            else if (message.Status == TestStatus.Failed)
                 taskbarItem.ProgressState = TaskbarItemProgressState.Error;
             else
                 taskbarItem.ProgressState = TaskbarItemProgressState.None;

@@ -20,7 +20,6 @@ namespace ExpressRunner
             Title = "Open test assembly..."
         };
 
-        private readonly Runner runner;
         private readonly TestRepository testRepository;
 
         private TestGroup selectedTestGroup;
@@ -44,15 +43,11 @@ namespace ExpressRunner
 
         [ImportingConstructor]
         public TestExplorerViewModel(
-            [Import] Runner runner,
             [Import] TestRepository testRepository)
         {
-            if (runner == null)
-                throw new ArgumentNullException("runner");
             if (testRepository == null)
                 throw new ArgumentNullException("testRepository");
 
-            this.runner = runner;
             this.testRepository = testRepository;
         }
 
@@ -79,9 +74,9 @@ namespace ExpressRunner
             testRepository.TestGroups.Remove(assembly);
         }
 
-        public void RunTests(TestGroup assembly)
+        public void RunTests(TestGroup testGroup)
         {
-            runner.RunTests(assembly);
+            testGroup.RunAsync();
         }
 
         public void OnSelectedTestGroupChanged(RoutedPropertyChangedEventArgs<object> eventArgs)
