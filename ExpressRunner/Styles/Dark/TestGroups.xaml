@@ -69,7 +69,8 @@
                                           IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
                                           Style="{StaticResource TreeViewItemExpander}" />
                         </Border>
-                        <Border Grid.Column="1"
+                        <Border x:Name="ContentBorder"
+                                Grid.Column="1"
                                 Background="{TemplateBinding Background}"
                                 Padding="0,6,6,6">
                             <ContentPresenter x:Name="PART_Header"
@@ -80,7 +81,7 @@
                                         Visibility="{Binding IsChecked, ElementName=ItemExpander, Converter={StaticResource booleanToVisibilityConverter}}" />
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" SourceName="PART_Header" Value="True">
+                        <Trigger Property="IsMouseOver" SourceName="ContentBorder" Value="True">
                             <Setter Property="Background" Value="#111" />
                         </Trigger>
                         <Trigger Property="HasItems" Value="False">
