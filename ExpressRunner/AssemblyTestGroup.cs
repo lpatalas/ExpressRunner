@@ -63,7 +63,7 @@ namespace ExpressRunner
                     var matchedGroup = currentGroup.SubGroups.FirstOrDefault(subGroup => subGroup.Name.Equals(part));
                     if (matchedGroup == null)
                     {
-                        matchedGroup = new TestGroup(part, this);
+                        matchedGroup = new TestGroup(part, currentGroup);
                         currentGroup.SubGroups.Add(matchedGroup);
                     }
 

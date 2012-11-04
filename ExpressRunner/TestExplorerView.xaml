@@ -42,7 +42,10 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Name}" />
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsAutoRunEnabled}" Margin="6,3,6,3" />
+                                <TextBlock Text="{Binding Name}" />
+                            </StackPanel>
                             <Button Grid.Column="1"
                                     cal:Message.Attach="[Event Click] = [Action RunTests($dataContext)]"
                                     Style="{StaticResource LinkButton}">
@@ -61,6 +64,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsAutoRunEnabled}" Margin="6,3,6,3" />
                                 <TextBlock Text="{Binding Name}" />
                                 <TextBlock x:Name="MissingLabel" Foreground="Red" Text="[missing]" Visibility="Collapsed" />
                             </StackPanel>
