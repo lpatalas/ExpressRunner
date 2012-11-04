@@ -182,11 +182,5 @@ namespace ExpressRunner
 
             return TestStatus.Succeeded;
         }
-
-        private void Reset()
-        {
-            SubGroups.Clear();
-            Tests.Clear();
-        }
     }
 }
