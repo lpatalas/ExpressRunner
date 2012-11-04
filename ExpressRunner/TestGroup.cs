@@ -19,18 +19,24 @@ namespace ExpressRunner
         public bool? IsAutoRunEnabled
         {
             get { return isAutoRunEnabled; }
-            set { SetIsAutoRunEnabledValue(value, true); }
+            set { SetIsAutoRunEnabledValue(value, true, true); }
         }
 
-        private void SetIsAutoRunEnabledValue(bool? newValue, bool updateParent)
+        private void SetIsAutoRunEnabledValue(bool? newValue, bool updateTests, bool updateParent)
         {
             if (newValue != IsAutoRunEnabled)
             {
                 isAutoRunEnabled = newValue;
                 NotifyOfPropertyChange(() => IsAutoRunEnabled);
 
+                if (newValue.HasValue && updateTests)
+                {
+                    foreach (var item in Tests)
+                        item.IsEnabled = newValue.Value;
+                }
+
                 foreach (var subGroup in subGroups)
-                    subGroup.SetIsAutoRunEnabledValue(newValue, false);
+                    subGroup.SetIsAutoRunEnabledValue(newValue, false, false);
 
                 if (updateParent && parentGroup != null)
                     parentGroup.CalculateIsAutoRunEnabledValueFromSubGroupsState();
@@ -88,7 +94,12 @@ namespace ExpressRunner
         public virtual Task RunAsync()
         {
             var parentAssembly = GetParentAssemblyTestGroup();
-            return parentAssembly.RunAsync(Tests);
+            return parentAssembly.RunAsync(GetEnabledTests());
+        }
+
+        protected IEnumerable<TestItem> GetEnabledTests()
+        {
+            return Tests.Where(item => item.IsEnabled);
         }
 
         private AssemblyTestGroup GetParentAssemblyTestGroup()

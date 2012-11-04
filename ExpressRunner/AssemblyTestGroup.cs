@@ -147,7 +147,7 @@ namespace ExpressRunner
 
         public override Task RunAsync()
         {
-            return RunAsync(Tests);
+            return RunAsync(GetEnabledTests());
         }
 
         public Task RunAsync(IEnumerable<TestItem> testsToRun)

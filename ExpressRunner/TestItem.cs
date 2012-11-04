@@ -23,6 +23,21 @@ namespace ExpressRunner
                 }
             }
         }
+
+        private bool isEnabled = true;
+        public bool IsEnabled
+        {
+            get { return isEnabled; }
+            set
+            {
+                if (isEnabled != value)
+                {
+                    isEnabled = value;
+                    NotifyOfPropertyChange(() => IsEnabled);
+                }
+            }
+        }
+
         public string Name
         {
             get { return Test.Name; }
