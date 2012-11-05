@@ -92,6 +92,7 @@
                 <ContentControl x:Name="StatusIcon" Style="{StaticResource NotRunIcon}" VerticalAlignment="Top" Width="21pt" />
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
                     <TextBlock Grid.Column="2" FontSize="21" Text="{Binding Name}" />
+                    <TextBlock FontSize="21" Foreground="#888" Margin="6,0,0,0" Text="{Binding Duration}" />
                     <TextBlock x:Name="UnactualLabel" FontSize="21" Foreground="#888" Margin="6,0,0,0" Text="Unactual" />
                 </StackPanel>
                 <ListBox x:Name="RunList" Grid.Column="2" Grid.Row="1" ItemsSource="{Binding Runs}" Margin="0,6,0,0" Style="{StaticResource TestListBox}">

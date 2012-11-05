@@ -10,6 +10,20 @@ namespace ExpressRunner
 {
     public class TestItem : PropertyChangedBase, IRunnableTest
     {
+        private TimeSpan duration;
+        public TimeSpan Duration
+        {
+            get { return duration; }
+            set
+            {
+                if (duration != value)
+                {
+                    duration = value;
+                    NotifyOfPropertyChange(() => Duration);
+                }
+            }
+        }
+
         private bool isActual;
         public bool IsActual
         {
@@ -85,6 +99,7 @@ namespace ExpressRunner
         {
             if (!IsActual)
             {
+                Duration = run.Duration;
                 runs.Clear();
                 runs.Add(run);
                 Status = run.Status;
@@ -92,6 +107,7 @@ namespace ExpressRunner
             }
             else
             {
+                Duration += run.Duration;
                 UpdateStatus(run);
                 runs.Add(run);
             }
