@@ -109,7 +109,14 @@
                                                         Style="{StaticResource NotRunIcon}"
                                                         VerticalAlignment="Top" />
                                         <StackPanel Orientation="Vertical">
-                                            <TextBlock FontSize="17" Text="{Binding Description}" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontSize="17" Text="{Binding Description}" />
+                                                <TextBlock FontSize="17"
+                                                           Foreground="#888"
+                                                           Margin="6,0,0,0"
+                                                           Text="{Binding Duration}"
+                                                           VerticalAlignment="Top" />
+                                            </StackPanel>
                                             <TextBlock x:Name="StackTrace" FontSize="17" Text="{Binding StackTrace}" />
                                         </StackPanel>
                                     </StackPanel>

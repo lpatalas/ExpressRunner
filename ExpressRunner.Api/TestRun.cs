@@ -14,18 +14,25 @@ namespace ExpressRunner.Api
             get { return description; }
         }
 
+        private readonly TimeSpan duration;
+        public TimeSpan Duration
+        {
+            get { return duration; }
+        }
+
         private readonly TestStatus status;
         public TestStatus Status
         {
             get { return status; }
         }
 
-        public TestRun(string description, TestStatus status)
+        public TestRun(string description, TimeSpan duration, TestStatus status)
         {
             if (string.IsNullOrEmpty(description))
                 throw new ArgumentNullException("description");
 
             this.description = description;
+            this.duration = duration;
             this.status = status;
         }
     }

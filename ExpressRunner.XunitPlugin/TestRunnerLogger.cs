@@ -40,7 +40,7 @@ namespace ExpressRunner.XunitPlugin
 
         public void TestFailed(string name, string type, string method, double duration, string output, string exceptionType, string message, string stackTrace)
         {
-            UpdateFailedTestStatus(name, type, method, exceptionType, message, stackTrace);
+            UpdateFailedTestStatus(name, type, method, duration, exceptionType, message, stackTrace);
         }
 
         public bool TestFinished(string name, string type, string method)
@@ -50,12 +50,12 @@ namespace ExpressRunner.XunitPlugin
 
         public void TestPassed(string name, string type, string method, double duration, string output)
         {
-            UpdateTestStatus(name, type, method, Api.TestStatus.Succeeded);
+            UpdateTestStatus(name, type, method, duration, Api.TestStatus.Succeeded);
         }
 
         public void TestSkipped(string name, string type, string method, string reason)
         {
-            UpdateTestStatus(name, type, method, Api.TestStatus.NotRun);
+            UpdateTestStatus(name, type, method, 0, Api.TestStatus.NotRun);
         }
 
         public bool TestStart(string name, string type, string method)
@@ -68,18 +68,18 @@ namespace ExpressRunner.XunitPlugin
             return runningTests.ContainsKey(XunitHelper.GetTestUniqueId(type, method));
         }
 
-        private void UpdateFailedTestStatus(string name, string type, string method, string exceptionType, string message, string stackTrace)
+        private void UpdateFailedTestStatus(string name, string type, string method, double duration, string exceptionType, string message, string stackTrace)
         {
             var test = runningTests[XunitHelper.GetTestUniqueId(type, method)];
             string description = FormatRunDescription(name, message);
-            test.RecordRun(new FailedTestRun(description, stackTrace.Trim()));
+            test.RecordRun(new FailedTestRun(description, TimeSpan.FromSeconds(duration), stackTrace.Trim()));
         }
 
-        private void UpdateTestStatus(string name, string type, string method, Api.TestStatus status)
+        private void UpdateTestStatus(string name, string type, string method, double duration, Api.TestStatus status)
         {
             var test = runningTests[XunitHelper.GetTestUniqueId(type, method)];
             var description = FormatRunDescription(name, status.ToString());
-            test.RecordRun(new TestRun(description, status));
+            test.RecordRun(new TestRun(description, TimeSpan.FromSeconds(duration), status));
         }
 
         private string FormatRunDescription(string testName, string message)
