@@ -107,8 +107,7 @@ namespace ExpressRunner
 
         private AssemblyTestGroup GetParentAssemblyTestGroup()
         {
-            var group = this;
-            while (group != null)
+            for (var group = this; group != null; group = group.parentGroup)
             {
                 var assemblyGroup = group as AssemblyTestGroup;
                 if (assemblyGroup != null)
